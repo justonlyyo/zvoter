@@ -1,0 +1,89 @@
+.login_pic{
+    width:100%;
+}
+.my_main{
+    margin-top:2em;
+}
+#phone,#password{
+    border-radius: 0px 1px 1px 0px;
+    font-size: 14px;
+}
+.my_main span{
+  color: rgba(159, 167, 183, 1);
+    border-radius: 1px 0px 0px 1px;
+}
+.input-group{
+    margin-bottom: 20px;
+}
+.blue_block{
+    width:0.5em;
+    line-height: 2em;
+    border-radius: 2px;
+    background-color:rgba(78,183,205,1);
+    text-indent: -9999em;
+    margin-right:0.5em;
+    height:2.0em;
+    display: inline-block;
+}
+.title_str{
+    font-size: 18px;
+    display: inline-block;
+}
+.row1{
+    text-align: center;
+    margin-top: 2em;
+    margin-bottom: 2em;
+}
+#submit_btn{
+    margin-top: 1em;
+    font-size:16px;
+    line-height: 2em;
+    background-color:rgba(78,183,205,1);
+    color:white;
+}
+#check_code{
+    border-right:none;
+}
+#check_code_img{
+    background: url("/static/image/code.png") no-repeat;
+    text-align: center;
+    background-size:100% 100%;
+    background-origin:content-box;
+    text-indent: -9999em;
+    width:6em;
+    height:89%;
+    border-left:none;
+}
+#check_code_img:active{
+    outline:none;
+}
+#check_code_img:focus{
+    outline:none;
+}
+.custom div {
+    /*margin-left:0px;*/
+    /*margin-right:0em;*/
+    padding-left:0px;
+}
+.input-group>input{
+    border-radius: 0px;
+}
+.last_row div{
+    padding:0px;
+}
+.last_row>div:last-child{
+    padding-right:15px;
+}
+#get_sms_code_btn{
+    display: inline-block;
+    background-color:rgba(78,183,205,1);
+    color:white;
+    font-size:14px;
+    line-height:2.3em;
+    padding:0px;
+    /*margin-right:30px;*/
+    width:100%;
+    padding:1px;
+    text-align: center;
+}
+

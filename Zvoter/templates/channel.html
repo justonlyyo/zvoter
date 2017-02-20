@@ -1,0 +1,824 @@
+{% extends "standard_template.html" %}
+{% block extend_css %}
+    <link rel="stylesheet" href="../static/css/channel.css">
+{% endblock %}
+{% block extend_js %}
+    <script src="../static/js/channel.js"></script>
+{% endblock %}
+
+{% block main %}
+    <!--频道主区域开始-->
+    <div class="row channel_main">
+        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-xs-12">
+            <!--频道导航区域开始-->
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="text left"><a>< 返回首页</a></div>
+                </div>
+            </div>
+            <div class="row nav_main">
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 blue_left">
+                            <div class="blue_block">蓝色标志</div>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 blue_right">
+                            <div class="dropdown channel_select">
+                              <button class="btn btn-default dropdown-toggle" type="button" id="channel_select_btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                               {{ current_channel_name }}
+                                <span class="caret"></span>
+                              </button>
+                              <ul class="dropdown-menu" aria-labelledby="channel_select_btn">
+                                  {% for channel in channel_list %}
+                                    <li><a href="/channel_{{ channel.channel_id }}.html">{{ channel.channel_name }}</a></li>
+                                  {% endfor %}
+                                  <!--
+                                <li><a href="#">体育</a></li>
+                                <li><a href="#">财经</a></li>
+                                <li><a href="#">娱乐</a></li>
+                                <li><a href="#">时政</a></li>
+                                <li><a href="#">学术</a></li>
+                                <li><a href="#">动漫</a></li>
+                                <li><a href="#">科技</a></li>
+                                <li><a href="#">游戏</a></li>
+                                <li><a href="#">教育</a></li>
+                                -->
+                              </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <!--mini发起投票开始-->
+                        <div id="voter_btn_small" class="hidden-lg hidden-md hidden-sm col-xs-10 col-xs-offset-2 vote_btn">
+                            <a>发起投票</a>
+                        </div>
+                        <!--mini发起投票结束-->
+                    </div>
+                </div>
+                <!--中间导航部分开始-->
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-9">
+                    <div class="my_nav row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <a href="/channel_{{ current_channel_id }}.html?class_id=0">
+                            全部
+                        </a>
+
+                        {% for x in class_list %}
+                            {% if x.class_id == current_class_id %}
+                            <a style="border-bottom: 2px solid rgba(78,183,205,1);"  href="/channel_{{ current_channel_id }}.html?class_id={{ x.class_id }}">
+                                {{ x.class_name }}
+                            </a>
+                            {% else %}
+                            <a  href="/channel_{{ current_channel_id }}.html?class_id={{ x.class_id }}">
+                                {{ x.class_name }}
+                            </a>
+                            {% endif %}
+                        {% endfor %}
+                        </div>
+                        <!--
+                        <div class="nav_item col-md-2 col-sm-2 col-xs-3">美食</div>
+                        <div class="nav_item col-md-2 col-sm-2 col-xs-3">交通</div>
+                        <div class="nav_item col-md-2 col-sm-2 col-xs-3">休闲</div>
+                        <div class="nav_item col-md-2 col-sm-2 col-xs-3">美妆</div>
+                        <div class="nav_item col-md-2 col-sm-2 col-xs-3">时尚</div>
+                        <div class="nav_item col-md-2 col-sm-2 col-xs-3">汽车</div>
+                        <div class="nav_item col-md-2 col-sm-2 col-xs-3">服饰</div>
+                        <div class="nav_item col-md-2 col-sm-2 col-xs-3">旅游</div>
+                        <div class="nav_item col-md-2 col-sm-2 col-xs-3">情感</div>
+                        <div class="nav_item col-md-2 col-sm-2 col-xs-3">宠物</div>
+                        -->
+                    </div>
+
+                </div>
+                <!--中间导航部分结束-->
+                <!--排序部分开始-->
+                <div class="dropdown sort_select_area col-lg-2 col-md-2 col-sm-2 hidden-xs">
+                  <button class="btn btn-default dropdown-toggle" type="button" id="sort_select_btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    综合排序
+                    <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="sort_area">
+                    <li><a class="sort_item" href="/channel_{{ current_channel_id }}.html?class_id={{ current_class_id }}&order_by=hot">热门度</a></li>
+                    <li><a class="sort_item"  href="#">争议性</a></li>
+                    <li><a  class="sort_item" href="/channel_{{ current_channel_id }}.html?class_id={{ current_class_id }}&order_by=create_date">发布时间</a></li>
+                  </ul>
+                </div>
+                <!--排序部分结束-->
+                <!--发起投票开始-->
+                <div id="voter_btn_big" class="col-lg-2 col-md-2 col-sm-2 hidden-xs vote_btn">
+                    <a>发起投票</a>
+                </div>
+                <!--发起投票结束-->
+            </div>
+            <!--频道导航区域结束-->
+            <!--正文区域开始-->
+            <!--第一行内容开始-->
+            <div class="row topic_row">
+                <!--左开始-->
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <div class="row">
+                        <div class="topic col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <img src="../static/image/icon_hot_red.png">
+                            话题:搜索引擎索引减少，会不会引起网站流量下降？
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <div class="row">
+                                <div class="topic_main col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <img class="img_a img" src="../static/image/topic_img_a.png">
+                                </div>
+                            </div><div class="row">
+                                <div class="point_str col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    A.不会，我的网站内页无排名手机，多少与流量无关。
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <div class="row">
+                                <div class="topic_main col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <img class="img_b img" src="../static/image/topic_img_a.png">
+                                </div>
+                            </div><div class="row">
+                                <div class="point_str col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    B.会，收录是获得排名的前提，肯定会影响。
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <hr class="my_sep">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="about_data col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <img src="../static/image/icon_message.png">
+                            <div class="about_num">
+                                1574
+                            </div>
+                            <img src="../static/image/icon_hot.png">
+                            <div class="about_num">
+                                824
+                            </div>
+                            <div class="about_num about_right">
+                                争议指数：
+                                <img src="../static/image/icon_dispute.png">
+                                <img src="../static/image/icon_dispute.png">
+                                <img src="../static/image/icon_dispute.png">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--左结束-->
+                <!--中开始-->
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <div class="row">
+                        <div class="topic col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <img src="../static/image/icon_hot_red.png">
+                            话题:搜索引擎索引减少，会不会引起网站流量下降？
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <div class="row">
+                                <div class="topic_main col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <img class="img_a img" src="../static/image/topic_img_a.png">
+                                </div>
+                            </div><div class="row">
+                                <div class="point_str col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    A.不会，我的网站内页无排名手机，多少与流量无关。
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <div class="row">
+                                <div class="topic_main col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <img class="img_b img" src="../static/image/topic_img_a.png">
+                                </div>
+                            </div><div class="row">
+                                <div class="point_str col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    B.会，收录是获得排名的前提，肯定会影响。
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <hr class="my_sep">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="about_data col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <img src="../static/image/icon_message.png">
+                            <div class="about_num">
+                                1574
+                            </div>
+                            <img src="../static/image/icon_hot.png">
+                            <div class="about_num">
+                                824
+                            </div>
+                            <div class="about_num about_right">
+                                争议指数：
+                                <img src="../static/image/icon_dispute.png">
+                                <img src="../static/image/icon_dispute.png">
+                                <img src="../static/image/icon_dispute.png">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--中结束-->
+                <!--右开始-->
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <div class="row">
+                        <div class="topic col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <img src="../static/image/icon_hot_red.png">
+                            话题:搜索引擎索引减少，会不会引起网站流量下降？
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <div class="row">
+                                <div class="topic_main col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <img class="img_a img" src="../static/image/topic_img_a.png">
+                                </div>
+                            </div><div class="row">
+                                <div class="point_str col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    A.不会，我的网站内页无排名手机，多少与流量无关。
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <div class="row">
+                                <div class="topic_main col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <img class="img_b img" src="../static/image/topic_img_a.png">
+                                </div>
+                            </div><div class="row">
+                                <div class="point_str col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    B.会，收录是获得排名的前提，肯定会影响。
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <hr class="my_sep">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="about_data col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <img src="../static/image/icon_message.png">
+                            <div class="about_num">
+                                1574
+                            </div>
+                            <img src="../static/image/icon_hot.png">
+                            <div class="about_num">
+                                824
+                            </div>
+                            <div class="about_num about_right">
+                                争议指数：
+                                <img src="../static/image/icon_dispute.png">
+                                <img src="../static/image/icon_dispute.png">
+                                <img src="../static/image/icon_dispute.png">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--右结束-->
+            </div>
+            <!--第一行内容结束-->
+            <!--第二行内容开始-->
+            <div class="row topic_row">
+                <!--左开始-->
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <div class="row">
+                        <div class="topic col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <img src="../static/image/icon_hot_red.png">
+                            话题:搜索引擎索引减少，会不会引起网站流量下降？
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <div class="row">
+                                <div class="topic_main col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <img class="img_a img" src="../static/image/topic_img_a.png">
+                                </div>
+                            </div><div class="row">
+                                <div class="point_str col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    A.不会，我的网站内页无排名手机，多少与流量无关。
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <div class="row">
+                                <div class="topic_main col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <img class="img_b img" src="../static/image/topic_img_a.png">
+                                </div>
+                            </div><div class="row">
+                                <div class="point_str col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    B.会，收录是获得排名的前提，肯定会影响。
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <hr class="my_sep">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="about_data col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <img src="../static/image/icon_message.png">
+                            <div class="about_num">
+                                1574
+                            </div>
+                            <img src="../static/image/icon_hot.png">
+                            <div class="about_num">
+                                824
+                            </div>
+                            <div class="about_num about_right">
+                                争议指数：
+                                <img src="../static/image/icon_dispute.png">
+                                <img src="../static/image/icon_dispute.png">
+                                <img src="../static/image/icon_dispute.png">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--左结束-->
+                <!--中开始-->
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <div class="row">
+                        <div class="topic col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <img src="../static/image/icon_hot_red.png">
+                            话题:搜索引擎索引减少，会不会引起网站流量下降？
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <div class="row">
+                                <div class="topic_main col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <img class="img_a img" src="../static/image/topic_img_a.png">
+                                </div>
+                            </div><div class="row">
+                                <div class="point_str col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    A.不会，我的网站内页无排名手机，多少与流量无关。
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <div class="row">
+                                <div class="topic_main col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <img class="img_b img" src="../static/image/topic_img_a.png">
+                                </div>
+                            </div><div class="row">
+                                <div class="point_str col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    B.会，收录是获得排名的前提，肯定会影响。
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <hr class="my_sep">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="about_data col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <img src="../static/image/icon_message.png">
+                            <div class="about_num">
+                                1574
+                            </div>
+                            <img src="../static/image/icon_hot.png">
+                            <div class="about_num">
+                                824
+                            </div>
+                            <div class="about_num about_right">
+                                争议指数：
+                                <img src="../static/image/icon_dispute.png">
+                                <img src="../static/image/icon_dispute.png">
+                                <img src="../static/image/icon_dispute.png">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--中结束-->
+                <!--右开始-->
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <div class="row">
+                        <div class="topic col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <img src="../static/image/icon_hot_red.png">
+                            话题:搜索引擎索引减少，会不会引起网站流量下降？
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <div class="row">
+                                <div class="topic_main col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <img class="img_a img" src="../static/image/topic_img_a.png">
+                                </div>
+                            </div><div class="row">
+                                <div class="point_str col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    A.不会，我的网站内页无排名手机，多少与流量无关。
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <div class="row">
+                                <div class="topic_main col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <img class="img_b img" src="../static/image/topic_img_a.png">
+                                </div>
+                            </div><div class="row">
+                                <div class="point_str col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    B.会，收录是获得排名的前提，肯定会影响。
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <hr class="my_sep">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="about_data col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <img src="../static/image/icon_message.png">
+                            <div class="about_num">
+                                1574
+                            </div>
+                            <img src="../static/image/icon_hot.png">
+                            <div class="about_num">
+                                824
+                            </div>
+                            <div class="about_num about_right">
+                                争议指数：
+                                <img src="../static/image/icon_dispute.png">
+                                <img src="../static/image/icon_dispute.png">
+                                <img src="../static/image/icon_dispute.png">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--右结束-->
+            </div>
+            <!--第二行内容结束-->
+            <!--第三行内容开始-->
+            <div class="row topic_row">
+                <!--左开始-->
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <div class="row">
+                        <div class="topic col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <img src="../static/image/icon_hot_red.png">
+                            话题:搜索引擎索引减少，会不会引起网站流量下降？
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <div class="row">
+                                <div class="topic_main col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <img class="img_a img" src="../static/image/topic_img_a.png">
+                                </div>
+                            </div><div class="row">
+                                <div class="point_str col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    A.不会，我的网站内页无排名手机，多少与流量无关。
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <div class="row">
+                                <div class="topic_main col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <img class="img_b img" src="../static/image/topic_img_a.png">
+                                </div>
+                            </div><div class="row">
+                                <div class="point_str col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    B.会，收录是获得排名的前提，肯定会影响。
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <hr class="my_sep">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="about_data col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <img src="../static/image/icon_message.png">
+                            <div class="about_num">
+                                1574
+                            </div>
+                            <img src="../static/image/icon_hot.png">
+                            <div class="about_num">
+                                824
+                            </div>
+                            <div class="about_num about_right">
+                                争议指数：
+                                <img src="../static/image/icon_dispute.png">
+                                <img src="../static/image/icon_dispute.png">
+                                <img src="../static/image/icon_dispute.png">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--左结束-->
+                <!--中开始-->
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <div class="row">
+                        <div class="topic col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <img src="../static/image/icon_hot_red.png">
+                            话题:搜索引擎索引减少，会不会引起网站流量下降？
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <div class="row">
+                                <div class="topic_main col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <img class="img_a img" src="../static/image/topic_img_a.png">
+                                </div>
+                            </div><div class="row">
+                                <div class="point_str col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    A.不会，我的网站内页无排名手机，多少与流量无关。
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <div class="row">
+                                <div class="topic_main col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <img class="img_b img" src="../static/image/topic_img_a.png">
+                                </div>
+                            </div><div class="row">
+                                <div class="point_str col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    B.会，收录是获得排名的前提，肯定会影响。
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <hr class="my_sep">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="about_data col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <img src="../static/image/icon_message.png">
+                            <div class="about_num">
+                                1574
+                            </div>
+                            <img src="../static/image/icon_hot.png">
+                            <div class="about_num">
+                                824
+                            </div>
+                            <div class="about_num about_right">
+                                争议指数：
+                                <img src="../static/image/icon_dispute.png">
+                                <img src="../static/image/icon_dispute.png">
+                                <img src="../static/image/icon_dispute.png">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--中结束-->
+                <!--右开始-->
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <div class="row">
+                        <div class="topic col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <img src="../static/image/icon_hot_red.png">
+                            话题:搜索引擎索引减少，会不会引起网站流量下降？
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <div class="row">
+                                <div class="topic_main col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <img class="img_a img" src="../static/image/topic_img_a.png">
+                                </div>
+                            </div><div class="row">
+                                <div class="point_str col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    A.不会，我的网站内页无排名手机，多少与流量无关。
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <div class="row">
+                                <div class="topic_main col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <img class="img_b img" src="../static/image/topic_img_a.png">
+                                </div>
+                            </div><div class="row">
+                                <div class="point_str col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    B.会，收录是获得排名的前提，肯定会影响。
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <hr class="my_sep">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="about_data col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <img src="../static/image/icon_message.png">
+                            <div class="about_num">
+                                1574
+                            </div>
+                            <img src="../static/image/icon_hot.png">
+                            <div class="about_num">
+                                824
+                            </div>
+                            <div class="about_num about_right">
+                                争议指数：
+                                <img src="../static/image/icon_dispute.png">
+                                <img src="../static/image/icon_dispute.png">
+                                <img src="../static/image/icon_dispute.png">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--右结束-->
+            </div>
+            <!--第三行内容结束-->
+            <!--第四行内容开始-->
+            <div class="row topic_row">
+                <!--左开始-->
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <div class="row">
+                        <div class="topic col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <img src="../static/image/icon_hot_red.png">
+                            话题:搜索引擎索引减少，会不会引起网站流量下降？
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <div class="row">
+                                <div class="topic_main col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <img class="img_a img" src="../static/image/topic_img_a.png">
+                                </div>
+                            </div><div class="row">
+                                <div class="point_str col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    A.不会，我的网站内页无排名手机，多少与流量无关。
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <div class="row">
+                                <div class="topic_main col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <img class="img_b img" src="../static/image/topic_img_a.png">
+                                </div>
+                            </div><div class="row">
+                                <div class="point_str col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    B.会，收录是获得排名的前提，肯定会影响。
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <hr class="my_sep">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="about_data col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <img src="../static/image/icon_message.png">
+                            <div class="about_num">
+                                1574
+                            </div>
+                            <img src="../static/image/icon_hot.png">
+                            <div class="about_num">
+                                824
+                            </div>
+                            <div class="about_num about_right">
+                                争议指数：
+                                <img src="../static/image/icon_dispute.png">
+                                <img src="../static/image/icon_dispute.png">
+                                <img src="../static/image/icon_dispute.png">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--左结束-->
+                <!--中开始-->
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <div class="row">
+                        <div class="topic col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <img src="../static/image/icon_hot_red.png">
+                            话题:搜索引擎索引减少，会不会引起网站流量下降？
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <div class="row">
+                                <div class="topic_main col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <img class="img_a img" src="../static/image/topic_img_a.png">
+                                </div>
+                            </div><div class="row">
+                                <div class="point_str col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    A.不会，我的网站内页无排名手机，多少与流量无关。
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <div class="row">
+                                <div class="topic_main col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <img class="img_b img" src="../static/image/topic_img_a.png">
+                                </div>
+                            </div><div class="row">
+                                <div class="point_str col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    B.会，收录是获得排名的前提，肯定会影响。
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <hr class="my_sep">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="about_data col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <img src="../static/image/icon_message.png">
+                            <div class="about_num">
+                                1574
+                            </div>
+                            <img src="../static/image/icon_hot.png">
+                            <div class="about_num">
+                                824
+                            </div>
+                            <div class="about_num about_right">
+                                争议指数：
+                                <img src="../static/image/icon_dispute.png">
+                                <img src="../static/image/icon_dispute.png">
+                                <img src="../static/image/icon_dispute.png">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--中结束-->
+                <!--右开始-->
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <div class="row">
+                        <div class="topic col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <img src="../static/image/icon_hot_red.png">
+                            话题:搜索引擎索引减少，会不会引起网站流量下降？
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <div class="row">
+                                <div class="topic_main col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <img class="img_a img" src="../static/image/topic_img_a.png">
+                                </div>
+                            </div><div class="row">
+                                <div class="point_str col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    A.不会，我的网站内页无排名手机，多少与流量无关。
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <div class="row">
+                                <div class="topic_main col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <img class="img_b img" src="../static/image/topic_img_a.png">
+                                </div>
+                            </div><div class="row">
+                                <div class="point_str col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    B.会，收录是获得排名的前提，肯定会影响。
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <hr class="my_sep">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="about_data col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <img src="../static/image/icon_message.png">
+                            <div class="about_num">
+                                1574
+                            </div>
+                            <img src="../static/image/icon_hot.png">
+                            <div class="about_num">
+                                824
+                            </div>
+                            <div class="about_num about_right">
+                                争议指数：
+                                <img src="../static/image/icon_dispute.png">
+                                <img src="../static/image/icon_dispute.png">
+                                <img src="../static/image/icon_dispute.png">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--右结束-->
+            </div>
+            <!--第四行内容结束-->
+            <!--正文区域结束-->
+        </div>
+    </div>
+    <!--频道主区域结束-->
+
+{% endblock %}
+
+{% block bottom %}
+    <!--瀑布流，不需要底部-->
+{% endblock %}

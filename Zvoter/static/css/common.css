@@ -1,0 +1,63 @@
+body{
+    font-family: "microsoft yahei";
+}
+/*导航栏1*/
+.my_nav_1{
+    padding-top:20px;
+    padding-bottom: 20px;
+    background-color: rgb(90,99,126);
+
+}
+.margin_top_20{
+    margin-top: 1%;
+}
+#my_search_word{
+    height:40px;
+}
+#my_publish_btn,#my_search_btn{
+    font-weight: 600;
+    font-size:18px;
+    color:white;
+}
+#my_search_btn {
+    background-color: rgb(78,183,205);
+    border-color:rgb(78,183,205);
+}
+.my_nav_round{
+    border-radius: 10px;
+}
+
+#my_publish_btn{
+    background-color: rgb(255,107,107);
+    border-color:rgb(255,107,107);
+}
+.my_head_pic{
+    float:left;
+}
+#num_tips{
+
+    position: absolute;
+    bottom:5%;
+    left:68%;
+    font-size:9px;
+    height:10px;
+    padding:0;
+}
+#my_user_name{
+    font-size: 12px;
+    text-align: center;
+    color:rgb(159,167,183);
+}
+#my_level{
+    font-size: 10px;
+    text-align: center;
+    color:rgb(159,167,183);
+}
+#my_info_select{
+    transform:rotate(7deg);
+    -ms-transform:rotate(90deg); 	/* IE 9 */
+    -moz-transform:rotate(90deg); 	/* Firefox */
+    -webkit-transform:rotate(90deg); /* Safari 和 Chrome */
+    -o-transform:rotate(90deg);
+    color:rgb(159,167,183);
+}
