@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <!--移动页面优化：页面宽度=设备宽度，初始化缩放为1，最大缩放1，禁用放大-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/css/top_search.css">
+
+    <link rel="stylesheet" href="../static/css/index.css">
+    <script src="../static/js/jquery-3.0.0.min.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
+    <script src="../static/js/top_search.js"></script>
+    <link rel="stylesheet" href="../static/css/unslider.css">
+    <link rel="stylesheet" href="../static/css/unslider-dots.css">
+    <script src="../static/js/unslider-min.js"></script>
+    <script src="../static/js/index.js"></script>
+    <title></title>
+</head>
+<body>
+<div class="container-fluid">
+    <!--顶部搜索栏，logo，登录注册-->
+    <div class="row top_search_row">
+        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-xs-12">
+            <div class="row">
+                <div class="col-lg-1 col-md-1 col-sm-2 hidden-xs">
+                    <img id="logo" class="img img-responsive" src="../static/image/logo.png">
+                </div>
+                <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
+                    <!--迷你导航-->
+                    <div  class="hidden-lg hidden-md hidden-sm col-xs-2">
+                        <ul id="min_nav" class="nav nav-pills nav-stacked" role="tablist">
+                            <li role="presentation" class="active"><a id="min_nav_a" href="javascript:;">导航</a></li>
+                            <li role="presentation"><a href="#">登录</a></li>
+                            <li role="presentation"><a href="#">注册</a></li>
+                        </ul>
+                    </div>
+                    <!--搜索框-->
+                    <div class="col-lg-9 col-lg-offset-2 col-md-9 col-md-offset-2 col-sm-9 col-sm-offset-2 col-xs-10">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="input-group my_search_form">
+                                    <input id="my_search_word" type="text" class="form-control my_nav_round" placeholder="春晚投票">
+                                <span class="input-group-btn">
+                                    <button id="my_search_btn" class="btn btn-default my_nav_round" type="button">搜索</button>
+                                </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="row key_words_area">
+                                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                                        <a class="key_words">美国大选</a>
+                                        <a class="key_words">搜索引擎</a>
+                                        <a class="key_words">计划生育</a>
+                                        <a class="key_words">美国大选</a>
+                                        <a class="key_words">凤姐全捐了</a>
+                                        <a class="key_words">番茄哥</a>
+                                    </div>
+                                    <div  class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        <a id="keys_more_btn">更多 >></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 hidden-xs">
+                    <div class="row">
+                        <button id="login_btn" class=" btn col-lg-6 col-md-6 col-sm-6 col-xs-6">登录</button>
+                        <button id="reg_btn" class=" btn btn-primary col-lg-6 col-md-6 col-sm-6 col-xs-6">注册</button>
+                    </div>
+
+                    <div class="row">
+                        <div id="reg_tips_area" class="col-lg-6 col-lg-offset-6 col-md-7 col-md-offset-5 col-sm-8 col-sm-offset-3 hidden-xs">
+                         <div id="reg_tips" class="row text-center">
+                             <div style="white-space: nowrap;overflow: hidden;" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                 <img class="img img-responsive" src="../static/image/reg_gift.png">
+                                <a id="reg_gift" class="">注册有礼</a>
+                             </div>
+                         </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--banner的row-->
+    <div class="row my_banner">
+        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-xs-12">
+            <!--banner插件控制的部分-->
+            <div class="my-slider">
+                <ul>
+                    <li><img class="img img-responsive" src="../static/image/test_banner1.jpg"></li>
+                    <li><img class="img img-responsive" src="../static/image/test_banner1.jpg"></li>
+                    <li><img class="img img-responsive" src="../static/image/test_banner1.jpg"></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--主导航部分-->
+    <div class="row main_nav">
+        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-xs-12">
+            <div class="row">
+                <!--导航栏分上下两行-->
+                <div id="my_nav" class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                    <div class="row nav_line">
+                        <div class="my_channel col-lg-1 col-md-2 col-sm-2 col-xs-3">
+                            <img src="../static/image/icon_lift.png">
+                            <a>生活</a>
+                        </div>
+                        <div class="my_channel col-lg-1 col-md-2 col-sm-2 col-xs-3">
+                            <img src="../static/image/icon_sports.png">
+                            <a>体育</a>
+                        </div>
+                        <div class="my_channel col-lg-1 col-md-2 col-sm-2 col-xs-3">
+                            <img src="../static/image/icon_finance.png">
+                            <a>财经</a>
+                        </div>
+                        <div class="my_channel col-lg-1 col-md-2 col-sm-2 col-xs-3">
+                            <img src="../static/image/icon_play.png">
+                            <a>娱乐</a>
+                        </div>
+                        <div class="my_channel col-lg-1 col-md-2 col-sm-2 col-xs-3">
+                            <img src="../static/image/icon_event.png">
+                            <a>时政</a>
+                        </div>
+                        <div class="my_channel col-lg-1 col-md-2 col-sm-2 col-xs-3">
+                            <img src="../static/image/icon_learning.png">
+                            <a>学术</a>
+                        </div>
+                        <div class="my_channel col-lg-1 col-md-2 col-sm-2 col-xs-3">
+                            <img src="../static/image/icon_cartoon.png">
+                            <a>动漫</a>
+                        </div>
+                        <div class="my_channel col-lg-1 col-md-2 col-sm-2 col-xs-3">
+                            <img src="../static/image/icon_tech.png">
+                            <a>科技</a>
+                        </div>
+                        <div class="my_channel col-lg-1 col-md-2 col-sm-2 col-xs-3">
+                            <img src="../static/image/icon_game.png">
+                            <a>游戏</a>
+                        </div>
+                        <div class="my_channel col-lg-1 col-md-2 col-sm-2 col-xs-3">
+                            <img src="../static/image/icon_education.png">
+                            <a>教育</a>
+                        </div>
+                    </div>
+                    <hr class="nav_split_line">
+                    <div class="row nav_line">
+                        <a class="my_channel2">商业</a>
+                        <a class="my_channel2">股票</a>
+                        <a class="my_channel2">基金</a>
+                        <a class="my_channel2">银行</a>
+                        <a class="my_channel2">保险</a>
+                        <a class="my_channel2">投资</a>
+                        <a class="my_channel2">第三版</a>
+                    </div>
+                </div>
+                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 vote_btn" src="../static/image/vote_btn_pic.jpg">
+                     <a class="">发起投票</a>
+                 </div>
+            </div>
+        </div>
+    </div>
+    <!--主内容row-->
+    <div class="main_content row">
+        <!--左右主展示区开始-->
+        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-xs-12">
+            <!--内容展示区开始-->
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                <div class="row">
+                    <!--左侧频道单元-->
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+
+                        <!--左侧第一个频道区域开始-->
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <!--频道单元标题栏-->
+                                <div class="row">
+                                    <div class="channel_area col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div>蓝色标志</div><div class="channel_name">生活</div><div class="channel_more">更多 >></div>
+                                    </div>
+                                </div>
+                                <hr class="channel_line">
+                                <!--6条投票信息开始-->
+                                <!--第一条投票信息区域-->
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">韩媒：朝鲜新造2枚新型车载洲际导弹 发射已就绪</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon" src="../static/image/icon_hot.png">
+                                        <div class="count_info">784</div>
+                                    </div>
+                                </div>
+                                <!--第一条投票信息区域结束-->
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">日方回应右翼酒店事件：中国勿过度关注不幸历史</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon" src="../static/image/icon_hot.png">
+                                        <div class="count_info">7210</div>
+                                    </div>
+                                </div>
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">揭秘中央军委联勤保障部队 地铁运新兵高铁送部队</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon" src="../static/image/icon_hot.png">
+                                        <div class="count_info">7210</div>
+                                    </div>
+                                </div>
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">上海野生动物园大熊猫“帼帼”母女突发重病死亡</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon"  src="../static/image/icon_hot.png">
+                                        <div class="count_info">7210</div>
+                                    </div>
+                                </div>
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">特朗普当选月 中国减持美债幅度创近五年最大</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon" src="../static/image/icon_hot.png">
+                                        <div class="count_info">7210</div>
+                                    </div>
+                                </div>
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">海派工艺美术正在渐失人气，未来应该如何拯救</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon" src="../static/image/icon_hot.png">
+                                        <div class="count_info">17210</div>
+                                    </div>
+                                </div>
+                                <!--6条投票信息结束-->
+                            </div>
+                        </div>
+                        <!--左侧第一个频道区域结束-->
+                        <!--左侧第二个频道区域开始-->
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <!--频道单元标题栏-->
+                                <div class="row">
+                                    <div class="channel_area col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div>蓝色标志</div><div class="channel_name">体育</div><div class="channel_more">更多 >></div>
+                                    </div>
+                                </div>
+                                <hr class="channel_line">
+                                <!--6条投票信息开始-->
+                                <!--第一条投票信息区域-->
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">韩媒：朝鲜新造2枚新型车载洲际导弹 发射已就绪</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon" src="../static/image/icon_hot.png">
+                                        <div class="count_info">784</div>
+                                    </div>
+                                </div>
+                                <!--第一条投票信息区域结束-->
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">日方回应右翼酒店事件：中国勿过度关注不幸历史</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon" src="../static/image/icon_hot.png">
+                                        <div class="count_info">7210</div>
+                                    </div>
+                                </div>
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">揭秘中央军委联勤保障部队 地铁运新兵高铁送部队</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon" src="../static/image/icon_hot.png">
+                                        <div class="count_info">7210</div>
+                                    </div>
+                                </div>
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">上海野生动物园大熊猫“帼帼”母女突发重病死亡</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon"  src="../static/image/icon_hot.png">
+                                        <div class="count_info">7210</div>
+                                    </div>
+                                </div>
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">特朗普当选月 中国减持美债幅度创近五年最大</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon" src="../static/image/icon_hot.png">
+                                        <div class="count_info">7210</div>
+                                    </div>
+                                </div>
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">海派工艺美术正在渐失人气，未来应该如何拯救</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon" src="../static/image/icon_hot.png">
+                                        <div class="count_info">17210</div>
+                                    </div>
+                                </div>
+                                <!--6条投票信息结束-->
+                            </div>
+                        </div>
+                        <!--左侧第二个频道区域结束-->
+                        <!--左侧第三个频道区域开始-->
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <!--频道单元标题栏-->
+                                <div class="row">
+                                    <div class="channel_area col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div>蓝色标志</div><div class="channel_name">财经</div><div class="channel_more">更多 >></div>
+                                    </div>
+                                </div>
+                                <hr class="channel_line">
+                                <!--6条投票信息开始-->
+                                <!--第一条投票信息区域-->
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">韩媒：朝鲜新造2枚新型车载洲际导弹 发射已就绪</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon" src="../static/image/icon_hot.png">
+                                        <div class="count_info">784</div>
+                                    </div>
+                                </div>
+                                <!--第一条投票信息区域结束-->
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">日方回应右翼酒店事件：中国勿过度关注不幸历史</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon" src="../static/image/icon_hot.png">
+                                        <div class="count_info">7210</div>
+                                    </div>
+                                </div>
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">揭秘中央军委联勤保障部队 地铁运新兵高铁送部队</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon" src="../static/image/icon_hot.png">
+                                        <div class="count_info">7210</div>
+                                    </div>
+                                </div>
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">上海野生动物园大熊猫“帼帼”母女突发重病死亡</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon"  src="../static/image/icon_hot.png">
+                                        <div class="count_info">7210</div>
+                                    </div>
+                                </div>
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">特朗普当选月 中国减持美债幅度创近五年最大</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon" src="../static/image/icon_hot.png">
+                                        <div class="count_info">7210</div>
+                                    </div>
+                                </div>
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">海派工艺美术正在渐失人气，未来应该如何拯救</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon" src="../static/image/icon_hot.png">
+                                        <div class="count_info">17210</div>
+                                    </div>
+                                </div>
+                                <!--6条投票信息结束-->
+                            </div>
+                        </div>
+                        <!--左侧第三个频道区域结束-->
+                        <!--左侧第四个频道区域开始-->
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <!--频道单元标题栏-->
+                                <div class="row">
+                                    <div class="channel_area col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div>蓝色标志</div><div class="channel_name">娱乐</div><div class="channel_more">更多 >></div>
+                                    </div>
+                                </div>
+                                <hr class="channel_line">
+                                <!--6条投票信息开始-->
+                                <!--第一条投票信息区域-->
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">韩媒：朝鲜新造2枚新型车载洲际导弹 发射已就绪</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon" src="../static/image/icon_hot.png">
+                                        <div class="count_info">784</div>
+                                    </div>
+                                </div>
+                                <!--第一条投票信息区域结束-->
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">日方回应右翼酒店事件：中国勿过度关注不幸历史</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon" src="../static/image/icon_hot.png">
+                                        <div class="count_info">7210</div>
+                                    </div>
+                                </div>
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">揭秘中央军委联勤保障部队 地铁运新兵高铁送部队</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon" src="../static/image/icon_hot.png">
+                                        <div class="count_info">7210</div>
+                                    </div>
+                                </div>
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">上海野生动物园大熊猫“帼帼”母女突发重病死亡</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon"  src="../static/image/icon_hot.png">
+                                        <div class="count_info">7210</div>
+                                    </div>
+                                </div>
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">特朗普当选月 中国减持美债幅度创近五年最大</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon" src="../static/image/icon_hot.png">
+                                        <div class="count_info">7210</div>
+                                    </div>
+                                </div>
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">海派工艺美术正在渐失人气，未来应该如何拯救</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon" src="../static/image/icon_hot.png">
+                                        <div class="count_info">17210</div>
+                                    </div>
+                                </div>
+                                <!--6条投票信息结束-->
+                            </div>
+                        </div>
+                        <!--左侧第四个频道区域结束-->
+                        <!--左侧第五个频道区域开始-->
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <!--频道单元标题栏-->
+                                <div class="row">
+                                    <div class="channel_area col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div>蓝色标志</div><div class="channel_name">时政</div><div class="channel_more">更多 >></div>
+                                    </div>
+                                </div>
+                                <hr class="channel_line">
+                                <!--6条投票信息开始-->
+                                <!--第一条投票信息区域-->
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">韩媒：朝鲜新造2枚新型车载洲际导弹 发射已就绪</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon" src="../static/image/icon_hot.png">
+                                        <div class="count_info">784</div>
+                                    </div>
+                                </div>
+                                <!--第一条投票信息区域结束-->
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">日方回应右翼酒店事件：中国勿过度关注不幸历史</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon" src="../static/image/icon_hot.png">
+                                        <div class="count_info">7210</div>
+                                    </div>
+                                </div>
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">揭秘中央军委联勤保障部队 地铁运新兵高铁送部队</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon" src="../static/image/icon_hot.png">
+                                        <div class="count_info">7210</div>
+                                    </div>
+                                </div>
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">上海野生动物园大熊猫“帼帼”母女突发重病死亡</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon"  src="../static/image/icon_hot.png">
+                                        <div class="count_info">7210</div>
+                                    </div>
+                                </div>
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">特朗普当选月 中国减持美债幅度创近五年最大</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon" src="../static/image/icon_hot.png">
+                                        <div class="count_info">7210</div>
+                                    </div>
+                                </div>
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">海派工艺美术正在渐失人气，未来应该如何拯救</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon" src="../static/image/icon_hot.png">
+                                        <div class="count_info">17210</div>
+                                    </div>
+                                </div>
+                                <!--6条投票信息结束-->
+                            </div>
+                        </div>
+                        <!--左侧第五个频道区域结束-->
+                    </div>
+                    <!--左侧内容展示区结束-->
+                    <!--右侧频道单元-->
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+
+                        <!--右侧第一个频道区域开始-->
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <!--频道单元标题栏-->
+                                <div class="row">
+                                    <div class="channel_area col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div>蓝色标志</div><div class="channel_name">学术</div><div class="channel_more">更多 >></div>
+                                    </div>
+                                </div>
+                                <hr class="channel_line">
+                                <!--6条投票信息开始-->
+                                <!--第一条投票信息区域-->
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">韩媒：朝鲜新造2枚新型车载洲际导弹 发射已就绪</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon" src="../static/image/icon_hot.png">
+                                        <div class="count_info">784</div>
+                                    </div>
+                                </div>
+                                <!--第一条投票信息区域结束-->
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">日方回应右翼酒店事件：中国勿过度关注不幸历史</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon" src="../static/image/icon_hot.png">
+                                        <div class="count_info">7210</div>
+                                    </div>
+                                </div>
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">揭秘中央军委联勤保障部队 地铁运新兵高铁送部队</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon" src="../static/image/icon_hot.png">
+                                        <div class="count_info">7210</div>
+                                    </div>
+                                </div>
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">上海野生动物园大熊猫“帼帼”母女突发重病死亡</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon"  src="../static/image/icon_hot.png">
+                                        <div class="count_info">7210</div>
+                                    </div>
+                                </div>
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">特朗普当选月 中国减持美债幅度创近五年最大</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon" src="../static/image/icon_hot.png">
+                                        <div class="count_info">7210</div>
+                                    </div>
+                                </div>
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">海派工艺美术正在渐失人气，未来应该如何拯救</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon" src="../static/image/icon_hot.png">
+                                        <div class="count_info">17210</div>
+                                    </div>
+                                </div>
+                                <!--6条投票信息结束-->
+                            </div>
+                        </div>
+                        <!--右侧第一个频道区域结束-->
+                        <!--右侧第二个频道区域开始-->
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <!--频道单元标题栏-->
+                                <div class="row">
+                                    <div class="channel_area col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div>蓝色标志</div><div class="channel_name">动漫</div><div class="channel_more">更多 >></div>
+                                    </div>
+                                </div>
+                                <hr class="channel_line">
+                                <!--6条投票信息开始-->
+                                <!--第一条投票信息区域-->
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">韩媒：朝鲜新造2枚新型车载洲际导弹 发射已就绪</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon" src="../static/image/icon_hot.png">
+                                        <div class="count_info">784</div>
+                                    </div>
+                                </div>
+                                <!--第一条投票信息区域结束-->
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">日方回应右翼酒店事件：中国勿过度关注不幸历史</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon" src="../static/image/icon_hot.png">
+                                        <div class="count_info">7210</div>
+                                    </div>
+                                </div>
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">揭秘中央军委联勤保障部队 地铁运新兵高铁送部队</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon" src="../static/image/icon_hot.png">
+                                        <div class="count_info">7210</div>
+                                    </div>
+                                </div>
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">上海野生动物园大熊猫“帼帼”母女突发重病死亡</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon"  src="../static/image/icon_hot.png">
+                                        <div class="count_info">7210</div>
+                                    </div>
+                                </div>
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">特朗普当选月 中国减持美债幅度创近五年最大</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon" src="../static/image/icon_hot.png">
+                                        <div class="count_info">7210</div>
+                                    </div>
+                                </div>
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">海派工艺美术正在渐失人气，未来应该如何拯救</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon" src="../static/image/icon_hot.png">
+                                        <div class="count_info">17210</div>
+                                    </div>
+                                </div>
+                                <!--6条投票信息结束-->
+                            </div>
+                        </div>
+                        <!--右侧第二个频道区域结束-->
+                        <!--右侧第三个频道区域开始-->
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <!--频道单元标题栏-->
+                                <div class="row">
+                                    <div class="channel_area col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div>蓝色标志</div><div class="channel_name">科技</div><div class="channel_more">更多 >></div>
+                                    </div>
+                                </div>
+                                <hr class="channel_line">
+                                <!--6条投票信息开始-->
+                                <!--第一条投票信息区域-->
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">韩媒：朝鲜新造2枚新型车载洲际导弹 发射已就绪</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon" src="../static/image/icon_hot.png">
+                                        <div class="count_info">784</div>
+                                    </div>
+                                </div>
+                                <!--第一条投票信息区域结束-->
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">日方回应右翼酒店事件：中国勿过度关注不幸历史</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon" src="../static/image/icon_hot.png">
+                                        <div class="count_info">7210</div>
+                                    </div>
+                                </div>
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">揭秘中央军委联勤保障部队 地铁运新兵高铁送部队</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon" src="../static/image/icon_hot.png">
+                                        <div class="count_info">7210</div>
+                                    </div>
+                                </div>
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">上海野生动物园大熊猫“帼帼”母女突发重病死亡</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon"  src="../static/image/icon_hot.png">
+                                        <div class="count_info">7210</div>
+                                    </div>
+                                </div>
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">特朗普当选月 中国减持美债幅度创近五年最大</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon" src="../static/image/icon_hot.png">
+                                        <div class="count_info">7210</div>
+                                    </div>
+                                </div>
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">海派工艺美术正在渐失人气，未来应该如何拯救</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon" src="../static/image/icon_hot.png">
+                                        <div class="count_info">17210</div>
+                                    </div>
+                                </div>
+                                <!--6条投票信息结束-->
+                            </div>
+                        </div>
+                        <!--右侧第三个频道区域结束-->
+                        <!--右侧第四个频道区域开始-->
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <!--频道单元标题栏-->
+                                <div class="row">
+                                    <div class="channel_area col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div>蓝色标志</div><div class="channel_name">游戏</div><div class="channel_more">更多 >></div>
+                                    </div>
+                                </div>
+                                <hr class="channel_line">
+                                <!--6条投票信息开始-->
+                                <!--第一条投票信息区域-->
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">韩媒：朝鲜新造2枚新型车载洲际导弹 发射已就绪</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon" src="../static/image/icon_hot.png">
+                                        <div class="count_info">784</div>
+                                    </div>
+                                </div>
+                                <!--第一条投票信息区域结束-->
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">日方回应右翼酒店事件：中国勿过度关注不幸历史</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon" src="../static/image/icon_hot.png">
+                                        <div class="count_info">7210</div>
+                                    </div>
+                                </div>
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">揭秘中央军委联勤保障部队 地铁运新兵高铁送部队</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon" src="../static/image/icon_hot.png">
+                                        <div class="count_info">7210</div>
+                                    </div>
+                                </div>
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">上海野生动物园大熊猫“帼帼”母女突发重病死亡</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon"  src="../static/image/icon_hot.png">
+                                        <div class="count_info">7210</div>
+                                    </div>
+                                </div>
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">特朗普当选月 中国减持美债幅度创近五年最大</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon" src="../static/image/icon_hot.png">
+                                        <div class="count_info">7210</div>
+                                    </div>
+                                </div>
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">海派工艺美术正在渐失人气，未来应该如何拯救</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon" src="../static/image/icon_hot.png">
+                                        <div class="count_info">17210</div>
+                                    </div>
+                                </div>
+                                <!--6条投票信息结束-->
+                            </div>
+                        </div>
+                        <!--右侧第四个频道区域结束-->
+                        <!--右侧第五个频道区域开始-->
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <!--频道单元标题栏-->
+                                <div class="row">
+                                    <div class="channel_area col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div>蓝色标志</div><div class="channel_name">教育</div><div class="channel_more">更多 >></div>
+                                    </div>
+                                </div>
+                                <hr class="channel_line">
+                                <!--6条投票信息开始-->
+                                <!--第一条投票信息区域-->
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">韩媒：朝鲜新造2枚新型车载洲际导弹 发射已就绪</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon" src="../static/image/icon_hot.png">
+                                        <div class="count_info">784</div>
+                                    </div>
+                                </div>
+                                <!--第一条投票信息区域结束-->
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">日方回应右翼酒店事件：中国勿过度关注不幸历史</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon" src="../static/image/icon_hot.png">
+                                        <div class="count_info">7210</div>
+                                    </div>
+                                </div>
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">揭秘中央军委联勤保障部队 地铁运新兵高铁送部队</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon" src="../static/image/icon_hot.png">
+                                        <div class="count_info">7210</div>
+                                    </div>
+                                </div>
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">上海野生动物园大熊猫“帼帼”母女突发重病死亡</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon"  src="../static/image/icon_hot.png">
+                                        <div class="count_info">7210</div>
+                                    </div>
+                                </div>
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">特朗普当选月 中国减持美债幅度创近五年最大</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon" src="../static/image/icon_hot.png">
+                                        <div class="count_info">7210</div>
+                                    </div>
+                                </div>
+                                <div class="article row">
+                                    <div class="article col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        <a class="article_title">海派工艺美术正在渐失人气，未来应该如何拯救</a>
+                                    </div>
+                                    <div class="article_count col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <img class="count_icon" src="../static/image/icon_hot.png">
+                                        <div class="count_info">17210</div>
+                                    </div>
+                                </div>
+                                <!--6条投票信息结束-->
+                            </div>
+                        </div>
+                        <!--右侧第五个频道区域结束-->
+                    </div>
+                    <!--右侧内容展示区结束-->
+                </div>
+            </div>
+            <!--左右主展示区结束-->
+            <!--右侧列表区开始-->
+            <div class="my_right col-lg-2 col-md-2 col-sm-2 hidden-xs">
+                <!--最新投票开始-->
+                <div class="row">
+                    <div class="my_list col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="list_title">最新投票</div><div class="list_more"><a>更多 >></a></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <hr class="channel_line">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <ul  class="my_ul">
+                            <li class="list_li">我是标是标题我是标题</li>
+                            <li class="list_li">我是标题我是标题题我是标题</li>
+                            <li class="list_li">我是标题我是标题我是标题我是标题</li>
+                            <li class="list_li">我是标题我是标题我是标题是标题</li>
+                            <li class="list_li">我是标是标题我是标题我是标题</li>
+                            <li class="list_li">我是标题我是标题我是标题</li>
+                            <li class="list_li">我是标题我是标题我是标题我是标题</li>
+                            <li class="list_li">w#######</li>
+                            <li class="list_li">我是标题我是标题题我是标题</li>
+                        </ul>
+                    </div>
+                </div>
+                <!--最新投票结束-->
+                <!--相关投票开始-->
+                <!--
+                <div class="row">
+                    <div class="my_list col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="list_title">相关投票</div><div class="list_more"><a>更多 >></a></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <hr class="channel_line">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <ul class="my_ul">
+                            <li class="list_li">我是标题我是标标题我是标题</li>
+                            <li class="list_li">我是标题我是标题我是标题我是标题</li>
+                            <li class="list_li">我是标题我我是标题我是标题</li>
+                            <li class="list_li">我是标题我是标我是标题我是标题</li>
+                            <li class="list_li">我是标题我是标题我是标题我是标题</li>
+                            <li class="list_li">我是标题我是标题我是题我是标题</li>
+                            <li class="list_li">我是标题我是标题我是标题</li>
+                            <li class="list_li">是标题我是标题我是标</li>
+                            <li class="list_li">我是标题我是题我是标题</li>
+                        </ul>
+                    </div>
+                </div>
+                -->
+                <!--相关投票结束-->
+                <!--扫码投票开始-->
+                <div class="row">
+                    <div class="my_scan col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <img src="../static/image/scan_me.png"> 扫一扫 手机投票还能抽奖！
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="my_scan col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <img class="img img-responsive" src="../static/image/weixin_pic.png">
+                    </div>
+                </div>
+                <!--扫码投票结束-->
+            </div>
+            <!--右侧列表区结束-->
+        </div>
+    </div>
+    <!--底部代码开始-->
+    <div class="my_bottom row">
+        <div class="my_bottom_middle col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 hidden-xs">
+            <div class="row">
+                <!--左侧-->
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <div class="row">
+                        <div class="bottom_title col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            联系方式
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="bottom_text col-lg-8 col-lg-offset-4 col-md-8 col-lg-offset-4 col-sm-12 col-xs-12">
+                            * 电话： 021-55668845
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="bottom_text col-lg-8 col-lg-offset-4 col-md-8 col-lg-offset-4 col-sm-12 col-xs-12">
+                            * 地址： 上海市杨浦区xxx路xx创业园x楼x幢808室
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="bottom_text col-lg-8 col-lg-offset-4 col-md-8 col-lg-offset-4 col-sm-12 col-xs-12">
+                            * 企业邮箱： welcome@zvoter.com
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="bottom_text col-lg-8 col-lg-offset-4 col-md-8 col-lg-offset-4 col-sm-12 col-xs-12">
+                           * 在线QQ： 456784236   47235462
+                        </div>
+                    </div>
+                </div>
+                <!--左侧结束-->
+                <!--中间-->
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <div class="row">
+                        <div class="bottom_title col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                           关于我们
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="bottom_text col-lg-8 col-lg-offset-4 col-md-8 col-lg-offset-4 col-sm-12 col-xs-12">
+                            * 企业文化
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="bottom_text col-lg-8 col-lg-offset-4 col-md-8 col-lg-offset-4 col-sm-12 col-xs-12">
+                            * 公司宗旨
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="bottom_text col-lg-8 col-lg-offset-4 col-md-8 col-lg-offset-4 col-sm-12 col-xs-12">
+                            * 我们的最终目标
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="bottom_text col-lg-8 col-lg-offset-4 col-md-8 col-lg-offset-4 col-sm-12 col-xs-12">
+                           * 加入我们
+                        </div>
+                    </div>
+                </div>
+                <!--中间结束-->
+                <!--右侧-->
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <div class="row">
+                        <div class="bottom_title col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                           版权信息
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="bottom_text col-lg-8 col-lg-offset-4 col-md-8 col-lg-offset-4 col-sm-12 col-xs-12">
+                            * 版权所有   上海市 xxx公司
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="bottom_text col-lg-8 col-lg-offset-4 col-md-8 col-lg-offset-4 col-sm-12 col-xs-12">
+                            * 工商备案许可证
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="bottom_text col-lg-8 col-lg-offset-4 col-md-8 col-lg-offset-4 col-sm-12 col-xs-12">
+                            * ICP备案信息  沪备字 2453541-1
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="bottom_text col-lg-8 col-lg-offset-4 col-md-8 col-lg-offset-4 col-sm-12 col-xs-12">
+                           * 版权所有，侵权必究
+                        </div>
+                    </div>
+                </div>
+                <!--右侧结束-->
+            </div>
+        </div>
+    </div>
+    <!--底部代码结束-->
+
+</div>
+</body>
+</html>

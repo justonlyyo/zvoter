@@ -1,0 +1,174 @@
+/*顶部搜索框和底部的样式*/
+body{
+    background-color: rgba(245, 245, 245, 1);
+    font-family: microsoft yahei, simsun, serif;
+    color:rgba(90, 99, 120, 1);
+}
+a{
+    color:rgba(66,72,87,1);
+}
+a:hover{
+    cursor: pointer;
+    text-decoration: none;
+}
+/*顶部搜索row样式*/
+.top_search_row{
+    background-color: rgba(91, 99, 120, 1);
+    padding-top:44px;
+    padding-bottom:30px;
+}
+@media screen and (max-width: 500px){
+     .top_search_row{
+         padding-top:12px;
+         padding-bottom:10px;
+         /*padding-right: 5px;*/
+         /*padding-left: 5px;*/
+     }
+
+}
+#min_nav_a{
+    /*background: url('/static/image/guest.png');*/
+}
+#login_btn,#reg_btn{
+    border-radius:2px !important;
+    font-size:14px;
+}
+#my_search_word,#my_search_btn{
+    border-radius:2px !important;
+}
+#login_btn{
+    color: rgba(159, 167, 183, 1);
+}
+
+.top_search_row .btn{
+    background-color: rgba(91, 99, 120, 1);
+}
+
+.top_search_row .btn-primary{
+    background-color: rgba(78,183,205,1);
+    border-color: rgba(78,183,205,1);
+}
+
+#reg_gift{
+     color: rgba(159, 167, 183, 1);
+     font-size:14px;
+     padding: 0;
+     white-space: nowrap;
+     overflow: hidden;
+}
+#logo{
+    height: auto;
+    width:11em;
+}
+.reg_tips_area img{
+    float: left;
+    margin-top: 4px;
+    margin-right: 3px;
+    width:12px;
+    height:12px;
+}
+#reg_tips>div{
+    /*min-width: 100px;*/
+}
+/*调整间隔*/
+.reg_tips_area{
+    padding-top: 0em;
+    padding-left: 0px;
+    text-align: center;
+}
+/*搜索框和按钮*/
+#my_search_word,#my_search_btn{
+    border-color: rgba(78,183,205,1);
+}
+#my_search_btn{
+    background-color: rgba(78,183,205,1);
+    color:white;
+}
+#login_user_pic:hover{
+    cursor:pointer;
+}
+.key_words_area{
+    margin-top: 14px;
+}
+.key_words_area a{
+    text-decoration: none;
+    color: rgba(159, 167, 183, 1);
+    font-size:12px;
+    padding:0px 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow:clip;
+    word-break: normal;
+}
+#keys_more_btn{
+    float:right;
+}
+/*迷你导航*/
+#min_nav{
+    float:right;
+    z-index: 1000;
+    position: absolute;
+    background-color: lightgrey;
+    opacity:0.65;
+}
+
+#min_nav>li{
+    display: none;
+    font-size: 14px;
+}
+#min_nav li a{
+    padding: 7px 10px;
+    border-radius: 2px;
+}
+
+#min_nav li:first-child{
+    display:block;
+
+}
+#min_nav li:first-child>a{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow:clip;
+    word-break: normal;
+}
+/*底部*/
+.my_bottom{
+    margin-top:8em;
+    background-color: rgba(90,99,120,1);
+}
+.bottom_title{
+    color:rgba(66,72,87,1);
+    font-size: 16px;
+    font-weight: bolder;
+    text-align:center;
+    padding:30px 0px;
+}
+.bottom_text{
+    color:rgba(159,167,183,1);
+    font-size:10px;
+    text-align:left;
+    padding:5px 0px 5px ;
+}
+.my_bottom_middle{
+    padding-bottom:40px;
+}
+.login_area{
+    padding:0px;
+    text-align: center;
+}
+#login_user_pic{
+    width: 4em;
+    height:4em;
+    margin-bottom:0.8em;
+    border-radius: 5px;
+
+}
+
+#user_level,#login_out{
+    text-align: center;
+}
+#user_level{
+    color: rgba(78,183,205,1);
+    font-size:10px;
+
+}

@@ -1,0 +1,284 @@
+/*banner的样式*/
+.my_banner{
+    background-color: rgba(66,72,83,1);
+}
+.my_banner>.col-lg-8{
+    padding: 0px;
+}
+.my_banner img{
+    width:100%;
+}
+.unslider-arrow{
+    display: block;
+    top:45%;
+    height:32px;
+    width:32px;
+    opacity: 0.2;
+    cursor: pointer;
+    left: 20px;
+    position: absolute;
+    z-index: 2;
+    border-radius:15px;
+    text-indent: -9999em;
+    /*text-indent: -999em;*/
+}
+.prev{
+    left: 20px;
+    background: rgba(0,0,0,1) url("/static/image/banner_left.png") no-repeat scroll;
+}
+.next{
+    right: 20px;
+    background: rgba(0,0,0,1) url("/static/image/banner_right.png") no-repeat scroll;
+}
+.unslider-nav{
+    position: absolute;
+    margin-top: -30px;
+    left:45%;
+}
+.unslider-nav ol li{
+    height:10px !important;
+    width:10px !important;
+    border:1px solid white !important;
+}
+.unslider-nav .unslider-active{
+    padding:1px !important;
+    background-color: rgba(78,183,205,1) !important;
+    border-color: rgba(78,183,205,1) !important;
+}
+/*主导航部分*/
+@media screen and (min-width: 1200px){
+    .my_channel{
+        width:9%;
+    }
+}
+#my_nav{
+    background-color:  rgba(238, 238, 238, 1);
+}
+#my_nav .nav_line{
+    /*padding-left: 1rem;*/
+    text-align: center;
+}
+.my_channel{
+    text-align:center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow:clip;
+    word-break: normal;
+    padding:15px 10px 0px 0px;
+    cursor: pointer;
+}
+.my_channel img{
+    margin-bottom: 3px;
+}
+.my_channel a{
+    display: inline-block;
+    font-size: 18px;
+    color:rgba(90,99,120,1);
+    text-decoration:none;
+}
+.my_channel a:hover{
+    color: rgba(78,183,205,1);
+}
+.nav_split_line{
+    border-color:rgba(78,183,205,1);
+    margin: 0px;
+}
+.my_channel2{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow:clip;
+    word-break: normal;
+    cursor: pointer;
+    color:rgba(90,99,120,1);
+    font-size: 14px;
+    display: inline-block;
+    padding:6px 20px 6px 20px;
+}
+/*发起投票按钮部分*/
+.vote_btn{
+    background-color: rgba(255,107,107,1);
+    font-size:20px;
+    text-align: center;
+    word-break: break-all;
+    letter-spacing:normal;
+
+    /*width:100%;*/
+    /*height:100%;*/
+}
+.vote_btn>a{
+    display: inline-block;
+    color:white;
+}
+.vote_btn_small{
+    background: none;
+    font-size:18px;
+    line-height:18px;
+    float:right;
+    margin-top:15px;
+}
+.vote_btn_small>a{
+    color: rgba(255,107,107,1);
+}
+/*主内容区，频道单元*/
+.main_content{
+    margin-top:10px;
+}
+.channel_area{
+    padding-right:10px;
+}
+.channel_area>div:first-child{
+    width:0.2em;
+    line-height: 2em;
+    border-radius: 2px;
+    background-color:rgba(78,183,205,1);
+    text-indent: -9999em;
+    display: inline-block;
+    margin-right:0.5em;
+}
+.channel_name{
+    font-size: 16px;
+    color:rgba(57,63,79,1);
+    display: inline-block;
+    padding-top:1em;
+    cursor: pointer;
+}
+.channel_more{
+    font-size: 12px;
+    color:rgba(159, 167, 183, 1);
+    display: inline-block;
+    padding-top:1.5em;
+    padding-right:0px;
+    padding-left:0px;
+    float:right;
+    text-align:right;
+    cursor: pointer;
+}
+.channel_line{
+    margin: 5px 0px 15px 0px;
+    brder-colr:rgba(220, 220, 220, 1);
+}
+.article{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow:clip;
+    word-break: keep-all;
+    cursor: pointer;
+    padding-top:5px;
+}
+.article_title{
+    font-size: 14px;
+    color:rgba(66,72,87,1);
+}
+.article_count{
+    text-align: right;
+    padding:0px 0px;
+}
+.count_info{
+    display: inline-block;
+    font-size:12px;
+    color:rgba(90,99,120,1);
+}
+.count_icon{
+    position:absolute;
+    left:20px;
+    bottom: 4px;
+}
+/*右侧列表区*/
+.my_right{
+    padding-right:0px;
+}
+.my_right>.row>div{
+    padding-right:0px;
+}
+.my_list{
+    margin-top:30px;
+    text-align: right;
+    padding-right:0px;
+}
+.list_title{
+    color:rgba(53,63,79,1);
+    font-size:14px;
+    display:inline-block;
+    float:left;
+}
+.list_li{
+    font-size:12px;
+    padding-bottom:5px;
+}
+.list_more{
+    font-size:10px;
+    color:rgba(78,183,205,1);
+    display:inline-block;
+}
+.my_ul{
+    padding-left:15px;
+}
+.my_ul li{
+    color:rgba(66,72,87,1);
+}
+.my_scan{
+    margin-top:30px;
+    font-size: 13px;
+    font-weight: bolder;
+    color:rgba(255,107,107,1);
+    text-align:center;
+}
+.my_scan>img{
+    vertical-align: text-bottom;
+}
+/*模态框*/
+#myModal div{
+    border-radius: 2px;
+}
+.modal-header{
+    background-color: rgba(78,183,205,1);
+    padding:11px 0px;
+    text-align: center;
+    font-size:16px;
+    color:white;
+}
+.form-group select{
+    width:100%;
+    padding: 5px 10px;
+}
+.add_img{
+    background-color: rgba(78,183,205,1);
+    font-size:14px;
+    padding:10px 5px;
+    display: inline-block;
+}
+#begin_date,#end_date{
+    width:100%;
+}
+.modal-footer{
+    text-align: center;
+}
+#vote_submit_btn{
+    background-color: rgba(255,107,107,1);
+    border-color: rgba(255,107,107,1);
+    border-radius: 2px;
+    box-shadow: 2px 2px 2px grey;
+}
+
+/*上传文件弹出框*/
+#upload_tips{
+    top:0px;
+    left:0px;
+    position:absolute;
+    background-color: rgba(66,72,83,1);
+    opacity: 0.8;
+    z-index:1000;
+    display: none;
+}
+.upload_inner{
+    width:200px;
+    height:100px;
+    background-color: white;
+}
+
+/*调整大屏幕的模态框的宽度*/
+@media screen and (min-width: 900px){
+    #myModal .modal-dialog{
+        width: 60% !important;
+    }
+}

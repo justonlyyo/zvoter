@@ -1,0 +1,33 @@
+.my_h1{
+    color: grey;
+    font-size: 18px;
+    font-weight:bold;
+    letter-spacing: 0.5em;
+    margin-top:2em;
+}
+#login_out_div{
+    font-size:14px;
+    text-align:right;
+}
+.my_hr{
+    margin: 5px 0px;
+}
+#user_count{
+    float:right;
+    font-size:10px;
+}
+
+.my_row{
+    padding-top:10px;
+    padding-bottom: 20px;
+}
+.mian_zone{
+    margin-top:1em;
+}
+
+hr{
+    border-top:1px solid lightgrey;
+}
+#submit_btn{
+
+}

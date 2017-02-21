@@ -1,0 +1,260 @@
+{% extends "admin_template.html" %}
+{% block extend_js %}
+<script src="../static/js/laydate.js"></script>
+<script src="../static/js/admin_center_topic.js"></script>
+{% endblock %}
+{% block extend_css %}
+<link rel="stylesheet" href="../static/css/admin_center_topic.css">
+{% endblock %}
+{% block main %}
+<div class="col-lg-12 col-md-12">
+    <div class="row">
+        <div class="col-lg-12 col-md-12">
+            <div id="user_count">{{ topic_count }}</div>
+        </div>
+    </div>
+    <div class="row">
+        <h6 style="text-align: center;color:#3071a9">话题列表</h6>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-md-12">
+            <table id="user_table" class="table table-hover">
+                <tr>
+                    <th>标题</th>
+                    <th>观点A</th>
+                    <th>观点B</th>
+                    <th>发布时间</th>
+                    <th>状态</th>
+                    <th class="last_column">操作</th>
+                </tr>
+                {% for topic in topic_data %}
+                <tr id="id_{{ topic.top_id }}" class="my_topic">
+                    <td class="top_title">{{ topic.top_title }}</td>
+                    <td style="display: none"  class="top_content">{{ topic.top_content }}</td>
+                    <td style="display: none" class="channel_id">{{ topic.channel_id }}</td>
+                    <td style="display: none" class="class_id">{{ topic.class_id }}</td>
+                    <td class="viewpoint_a">{{ topic.viewpoint_a }}</td>
+                    <td style="display: none" class="img_url_a">{{ topic.img_url_a }}</td>
+                    <td class="viewpoint_b">{{ topic.viewpoint_b  }}</td>
+                    <td style="display: none" class="img_url_b">{{ topic.img_url_b }}</td>
+                    <td  class="create_date">{{ topic.create_date }}</td>
+                    <td class="can_show" data-val="{{ topic.can_show }}">
+                        {% if topic.can_show == 1 %}
+                        <button class="btn btn-default btn-xs" onclick="down_topic($(this))">已审核</button>
+                        {% else %}
+                        <button class="btn btn-default btn-xs" onclick="up_topic($(this))">待审核</button>
+                        {% endif %}
+                    </td>
+                    <td style="display: none" class="begin_date">{{ "" if topic.begin_date == "" else topic.begin_date }}</td>
+                    <td style="display: none" class="end_date">{{ "" if topic.end_date == "" else topic.end_date }}</td>
+                    <td style="display: none" class="author">{{ topic.author }}</td>
+                    <td>
+                    <div class="btn-group">
+                        <button onclick="edit_topic($(this))" class="btn btn-default btn-primary btn-xs">
+                        编辑
+                    </button>
+                        <button onclick="drop_topic($(this))" class="btn btn-default btn-xs">
+                        删除
+                    </button>
+                        <a href="/view/{{ topic.top_id }}.html" target="_blank" class="btn btn-default btn-xs">
+                        预览
+                    </a>
+                    </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+    <!-- 底部分页 -->
+    <div class="row text-center">
+        <nav aria-label>
+            <ul id="page_list" class="pagination">
+                <li class="{{ 'disabled' if index_range[0] == 1 else '' }}"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+                {% for index in index_range %}
+                <li class="{{ 'active' if index == current_index else '' }}">
+                    <a href="/admin_center/topic?index={{ index }}">{{ index }}</a>
+                </li>
+                {% endfor %}
+                <li  class="{{ 'disabled' if index_range[-1] == max_index else '' }}"><a href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<!--模态框开始-->
+<a id="pop_modal" style="display: none" data-toggle="modal" data-target="#myModal">发起投票</a>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h5 class="modal-title" id="myModalLabel">发起投票</h5>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="input_title" class="col-sm-2 control-label">标题名</label>
+                        <input type="hidden" id="top_id">
+                        <div class="col-sm-10">
+                            <input id="top_title" type="text" class="form-control" id="input_title" placeholder="最多20个字">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="input_content" class="col-sm-2 control-label">话题描述</label>
+                        <div class="col-sm-10">
+                            <textarea id="top_content" class="form-control" id="input_content" placeholder="最多150字"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="big_class" class="col-sm-2 control-label">分类</label>
+                        <div class="col-sm-3">
+                            <select id="big_class">
+                                <option value="0"></option>
+                                {% for channel in channel_list %}
+                                <option value="{{ channel.channel_id }}">{{ channel.channel_name }}</option>
+                                {% endfor %}
+
+                            </select>
+                        </div>
+                        <div class="col-sm-1"></div>
+                        <div class="col-sm-3">
+                            <select id="small_class">
+                                <!--
+                                <option value="宠物">宠物</option>
+                                <option value="美妆">美妆</option>
+                                -->
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="select_a" class="col-sm-2 control-label">选项1</label>
+                        <div class="col-sm-7">
+                            <textarea  class="form-control" id="select_a" placeholder="最多150字"></textarea>
+                        </div>
+                        <div class="col-sm-1"></div>
+                        <div class=" col-sm-2"><a data-ab="a" class="add_img">添加图片</a></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="select_b" class="col-sm-2 control-label">选项2</label>
+                        <div class="col-sm-7">
+                            <textarea class="form-control" id="select_b" placeholder="最多150字"></textarea>
+                        </div>
+                        <div class="col-sm-1"></div>
+                        <div class=" col-sm-2"><a data-ab='b' class="add_img">添加图片</a></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="select_b" class="col-sm-2 control-label">投票时间</label>
+                        <div class="col-sm-2">
+                            <label>
+                                <input id="set_date_range" type="radio"> 开始
+                            </label>
+                        </div>
+                        <div class="col-sm-3">
+                            <input type="text" id="begin_date"
+                                   onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+                        </div>
+                        <div class="col-sm-2">
+                            <label>
+                                结束
+                            </label>
+                        </div>
+                        <div class="col-sm-3">
+                            <input type="text" id="end_date"
+                                   onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-2">
+                            <label>
+                                <input id="set_forever" type="radio"> 永久
+                            </label>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" id="author">
+                <input type="hidden" id="img_url_a">
+                <input type="hidden" id="img_url_b">
+                <button type="button" id="vote_submit_btn" class="btn btn-primary">确认发布</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--开始图片上传代码-->
+<form id="file_form" style="display: none" enctype="multipart/form-data" method="post" target="exec_target"
+      action="/admin_upload">
+    <input id="my_file" type="file" name="myfile"/>
+    <input id="file_select" type="hidden" name="file_select">
+    <input type="hidden" id="img_csrf" name="img_csrf">
+    <input id="submit_img_button" type="submit" value="提交"/>
+</form>
+<!--这个iframe是用来接收返回的信息的，-->
+<iframe style="display: none" id="exec_target_a" name="exec_target_a"></iframe>
+<!--这个iframe是用来接收返回的信息的，-->
+<iframe style="display: none" id="exec_target_b" name="exec_target_b"></iframe>
+<!--图片上传代码结束-->
+<style>
+/*模态框相关样式*/
+#myModal div{
+    border-radius: 2px;
+}
+.modal-header{
+    background-color: rgba(78,183,205,1);
+    padding:11px 0px;
+    text-align: center;
+    font-size:16px;
+    color:white;
+}
+.form-group select{
+    width:100%;
+    padding: 5px 10px;
+}
+.add_img{
+    background-color: rgba(78,183,205,1);
+    font-size:14px;
+    padding:10px 5px;
+    display: inline-block;
+}
+#begin_date,#end_date{
+    width:100%;
+}
+.modal-footer{
+    text-align: center;
+}
+#vote_submit_btn{
+    background-color: rgba(255,107,107,1);
+    border-color: rgba(255,107,107,1);
+    border-radius: 2px;
+    box-shadow: 2px 2px 2px grey;
+}
+
+/*上传文件弹出框*/
+#upload_tips{
+    top:0px;
+    left:0px;
+    position:absolute;
+    background-color: rgba(66,72,83,1);
+    opacity: 0.8;
+    z-index:1000;
+    display: none;
+}
+.upload_inner{
+    width:200px;
+    height:100px;
+    background-color: white;
+}
+
+</style>
+
+<!--提交话题的脚本-->
+<script src="../static/js/submit_topic_admin.js"></script>
+
+<!--模态框结束-->
+
+{% endblock %}
