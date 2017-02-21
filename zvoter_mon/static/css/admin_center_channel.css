@@ -1,0 +1,14 @@
+/**/
+#user_table th:first-child{
+    width:14em;
+}
+#user_table th,td{
+    text-align: center;
+}
+
+.add_class{
+    float:right;
+}
+.drop_btn{
+    color:#3071a9;
+}

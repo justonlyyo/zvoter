@@ -1,0 +1,122 @@
+.nav_main{
+    margin-top:1.5em ;
+    margin-bottom:1.5em ;
+    line-height:3em;
+}
+.blue_block{
+    width:0.5em;
+    line-height: 2em;
+    border-radius: 2px;
+    background-color:rgba(78,183,205,1);
+    text-indent: -9999em;
+    display: inline-block;
+    margin-right:0.5em;
+    right:0px;
+    top:0px;
+    height:2.5em;
+    position: absolute;
+}
+.channel_select{
+    display: inline-block;
+
+}
+.blue_left{
+    padding-right: 0px;
+}
+.blue_right{
+    padding-left:0px;
+}
+#channel_select_btn,#sort_select_btn{
+    border:none;
+    font-size:16px;
+    padding:3px 12px 6px 12px;
+}
+.sort_select_area{
+    text-align: center;
+}
+#sort_select_btn{
+    font-size:14px;
+    color:rgba(78,183,205,1);
+}
+.sort_item{
+    font-size:14px !important;
+    color:rgba(78,183,205,1) !important;
+}
+.my_nav a{
+    font-size:14px;
+    text-align: center;
+    display: inline-block;
+    padding:0px 3px;
+    word-break: keep-all;
+
+}
+.my_nav a:first-child{
+    font-size:16px;
+    color:rgba(78,183,205,1);
+}
+.dropdown-menu{
+    min-width: 2em;
+}
+/*发起投票按钮部分*/
+.vote_btn{
+    background-color: rgba(255,107,107,1);
+    font-size:12px;
+    text-align: center;
+    word-break: break-all;
+    padding:0px;
+    letter-spacing:normal;
+}
+.vote_btn>a{
+    display: inline-block;
+    color:white;
+}
+#voter_btn_small{
+    /*margin-left:1em;*/
+    /*margin-right: 1em;*/
+}
+/*纠正导航样式*/
+@media screen and (min-width: 1200px){
+    .nav_item{
+        width:8.2%;
+    }
+}
+/*纠正小视窗下右侧偏移*/
+@media screen and (max-width: 768px){
+
+}
+/*话题部分*/
+.topic{
+    font-size:14px;
+}
+.topic>img:first-child{
+    vertical-align: inherit;
+}
+.topic_main{
+    padding-top:10px;
+    padding-bottom:10px;
+}
+.img_a,.img_b{
+    width:100%;
+    height:100%;
+}
+.point_str{
+    font-size:12px;
+}
+.my_sep{
+    border-color:rgba(159,167,183,1);
+    margin: 5px 0px;
+}
+.about_data{
+    text-align: left;
+}
+.about_num{
+    display:inline-block;
+    font-size:9px;
+}
+.about_right{
+    float:right;
+    font-size:10px;
+}
+.topic_row{
+    padding-bottom:35px;
+}
