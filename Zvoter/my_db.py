@@ -163,23 +163,26 @@ def str_format(result, local=False):
     """对数据库查询的结果中的datetime和date对象进行格式化，第一个参数是查询的结果集，元组类型。
     第二个参数是是否用中文年月日表示。以list类型返回处理过的结果"""
     data = []
-    for x in result:
-        if isinstance(x, datetime.datetime):
-            temp = x.strftime("%Y{}%m{}%d{} %H{}%M{}%S{}")
-            if local:
-                temp = temp.format("年", "月", "日", "时", "分", "秒")
+    if result is not None:
+        for x in result:
+            if isinstance(x, datetime.datetime):
+                temp = x.strftime("%Y{}%m{}%d{} %H{}%M{}%S{}")
+                if local:
+                    temp = temp.format("年", "月", "日", "时", "分", "秒")
+                else:
+                    temp = temp.format("-", "-", "", ":", ":", "")
+                data.append(temp)
+            elif isinstance(x, datetime.date):
+                temp = x.strftime("%Y{}%m{}%d{}")
+                if local:
+                    temp = temp.format("年", "月", "日")
+                else:
+                    temp = temp.format("-", "-", "")
+                data.append(temp)
             else:
-                temp = temp.format("-", "-", "", ":", ":", "")
-            data.append(temp)
-        elif isinstance(x, datetime.date):
-            temp = x.strftime("%Y{}%m{}%d{}")
-            if local:
-                temp = temp.format("年", "月", "日")
-            else:
-                temp = temp.format("-", "-", "")
-            data.append(temp)
-        else:
-            data.append(x)
+                data.append(x)
+    else:
+        pass
     return data
 
 

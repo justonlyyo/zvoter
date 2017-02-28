@@ -26,5 +26,8 @@ $(function(){
         $("#my_message").focus();
     });
 
+    // 调整图片的高宽
+    $(".img_a,.img_b").css("height", parseInt($(".voter_btn").css("width").split("px")[0])*0.75);
+
     //end!
 });

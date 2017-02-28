@@ -74,23 +74,32 @@ def __get_vote_count(topic_id):
     ses = my_db.sql_session()
     proxy = ses.execute(sql)
     result = list(proxy.fetchone())
+    result = [(0 if x is None else x) for x in result]
     ses.close()
     message['support_a'] = result[0]
     message['support_b'] = result[1]
     return message
 
 
-def get_vote_count(topic_id):
-    """低级方法。根据话题id获取相关的投票人数"""
+def get_vote_count(topic_id, from_db=False):
+    """低级方法。根据话题id获取相关的投票人数,返回的是字典，可以分别查看双方的支持人数"""
     message = {'message': "success"}
     cache = my_db.cache
     result = cache.get("vote_count_{}".format(topic_id))
-    if result is None:
+    if result is None or from_db:
         result = __get_vote_count(topic_id)
         result.pop('message')
         cache.set("vote_count_{}".format(topic_id), result, timeout=60*60*12)
     message.update(result)
     return message
+
+
+def sum_vote_count(topic_id):
+    """统计一个话题的参与人数，返回ｉｎｔ"""
+    result = get_vote_count(topic_id)
+    if result['support_a'] is None or result['support_b'] is None:
+        result = __get_vote_count(topic_id)
+    return result['support_a'] + result['support_b']
 
 
 def __get_view_count(topic_id):
