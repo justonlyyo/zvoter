@@ -12,7 +12,7 @@
 .topic>img:first-child{
     vertical-align: inherit;
 }
-point_str{
+.point_str{
     font-size:12px;
 }
 .my_sep{
@@ -106,6 +106,19 @@ point_str{
     color: rgba(78, 183, 205, 1);
 }
 /*user_center_info.css*/
+#change_portrait{
+    background-color: rgba(78,183,205,1);
+    font-size:14px;
+    padding:10px 5px;
+    display: block;
+    text-align: center;
+}
+#user_img{
+    width: 8em;
+    height:8em;
+    margin-bottom:0.8em;
+    border-radius: 5px;
+}
 #info_form{
     padding:30px;
 }

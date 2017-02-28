@@ -84,8 +84,8 @@
     margin-bottom: 1em;
 }
 .a_b img{
-    width:100%;
-    height:100%;
+    /*width:100%;*/
+    /*height:100%;*/
 }
 .ab .voter{
     color:rgba(255, 107, 107, 1);
@@ -102,8 +102,9 @@
     border-radius: 2px 2px 0px 0px;
     width:100%;
 }
-.voter .img_a{
+.img_b, .img_a{
     /*border:1px solid rgba(78, 183, 205, 1);*/
+    /*width:10rem;*/
 }
 .voter_btn{
     font-size:16px;

@@ -33,7 +33,10 @@ def get_channel():
 
 
 def channel_list(from_db=False):
-    """获取所有的频道信息，高级方法。from_db代表是否直接从数据读读取"""
+    """获取所有的频道信息，高级方法。from_db代表是否直接从数据读读取
+    返回频道字典的数组。类似如下格式：
+    ['channel_name': '财经', 'channel_img_url': 'icon_finance.png', 'channel_id': 3},.....]
+    """
     if from_db:
         return get_channel()
     else:
@@ -67,7 +70,7 @@ def get_class():
 
 
 def get_class_dict(from_db=False):
-    """获取所有的小类信息，高级方法。from_db代表是否直接从数据读读取"""
+    """获取所有的小类信息，高级方法。from_db代表是否直接从数据读读取返回的是以channel_id为ｋｅｙ的字典"""
     if from_db:
         return get_class()
     else:
@@ -75,6 +78,24 @@ def get_class_dict(from_db=False):
         if data is None:
             data = get_class()
         return data
+
+
+def get_class_list():
+    """获取所有的小类信息，高级方法。from_db代表是否直接从数据读读取返回的是以
+    [{"class_id":class_id,"class_name:class_name},'...]这样字典的数组
+    """
+    cache = my_db.cache
+    key = "small_class_list"
+    data = cache.get(key)
+    if data is None:
+        sql = "SELECT class_id,class_name FROM class_info"
+        ses = my_db.sql_session()
+        proxy = ses.execute(sql)
+        result = proxy.fetchall()
+        ses.close()
+        data = [dict(zip(['class_id', 'class_name'], x)) for x in result]
+        cache.set(key, data, timeout=60*15)
+    return data
 
 
 def channel_and_class(flag1=False, flag2=False):
@@ -100,6 +121,7 @@ def save_channel(channel_dict):
 
 
 def save_class(small_class_dict):
+    """保存类别信息,目前只能增加和修改，不能删除类别"""
     old_dict_raw = get_cache("small_class_dict")
     new_dict = small_class_dict
     add_list = list()  # 存放插入的小类的数组
@@ -130,7 +152,7 @@ def save_class(small_class_dict):
                 sql = my_db.structure_sql("delete", "class_info", "where class_id={}".format(x))
                 sql_session.execute(sql)
             sql_session.commit()
-        if len(update_list) > 0 :
+        if len(update_list) > 0:
             for x in update_list:
                 class_id = x.pop("class_id")
                 sql = my_db.structure_sql("edit", "class_info", "where class_id={}".format(class_id), **x)
@@ -146,7 +168,3 @@ def save_class(small_class_dict):
         return {"message": "success"}
 
 
-def save_info(channel_dict, small_class_dict):
-    """保存频道和小类信息"""
-
-print(channel_and_class(1))

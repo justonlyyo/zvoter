@@ -91,8 +91,11 @@ def index():
     """返回首页"""
     login_flag = is_login(session)  # 用户是否已登录
     channel_list = channel.channel_list()  # 频道列表
+    channel_dict = {x['channel_id']: x['channel_name'] for x in channel_list}
     form = SearchLoginForm()  # 搜索from
     img_form = PhotoForm()  # 上传图片from
+    index_dict = topic.index_topic_list()  # 首页帖子字典
+    side_bar_list = topic.side_bar_topic_list()  # 侧边栏的列表
     if login_flag:
         try:
             user_img_url = session['user_img_url']
@@ -101,13 +104,13 @@ def index():
         # 用户头像
         user_img_url = '../static/image/guest.png' if user_img_url == "" else session['user_img_url']
         user_level = 1  # 用户级别，暂时替代
-        return render_template("index.html", login_flag=login_flag,
+        return render_template("index.html", login_flag=login_flag, side_bar_list=side_bar_list,
                                user_img_url=user_img_url, user_level=user_level,
-                               channel_list=channel_list,
-                               form=form, img_form=img_form)
+                               channel_list=channel_list, channel_dict=channel_dict,
+                               form=form, img_form=img_form, index_dict=index_dict)
     else:
-        return render_template("index.html", login_flag=login_flag,
-                               channel_list=channel_list,
+        return render_template("index.html", login_flag=login_flag, channel_dict=channel_dict,
+                               channel_list=channel_list, index_dict=index_dict, side_bar_list=side_bar_list,
                                form=form, img_form=img_form)
 
 
@@ -121,6 +124,7 @@ def get_class_dict():
 @app.route("/channel_<channel_id>.html")
 def my_channel(channel_id):
     """列表页"""
+    form = SearchLoginForm()  # 搜索from
     try:
         channel_id = int(channel_id)
     except ValueError:
@@ -134,9 +138,12 @@ def my_channel(channel_id):
     for x in range(len(channel_list)):
         temp = channel_list[x]
         if temp['channel_id'] == channel_id:
+            """获取频道名"""
             channel_name = temp['channel_name']
-            channel_list.pop(x)
             break
+    """获取频道的话题列表"""
+    topic_list = topic.channel_topic_list(channel_id=channel_id, class_id=current_class_id)
+
     if login_flag:
         try:
             user_img_url = session['user_img_url']
@@ -145,29 +152,61 @@ def my_channel(channel_id):
         user_img_url = '../static/image/guest.png' if user_img_url == "" else session['user_img_url']
         user_level = 1  # 暂时替代
 
-        return render_template("channel.html", login_flag=login_flag,
-                               user_level=user_level, user_img_url=user_img_url)
+        return render_template("channel.html", login_flag=login_flag, channel_list=channel_list,
+                               current_channel_name=channel_name, class_list=class_list,
+                               current_channel_id=channel_id, current_class_id=current_class_id,
+                               topic_list=topic_list, user_level=user_level, user_img_url=user_img_url,
+                               form=form)
+
     else:
         return render_template("channel.html", login_flag=login_flag, channel_list=channel_list,
                                current_channel_name=channel_name, class_list=class_list,
-                               current_channel_id=channel_id, current_class_id=current_class_id)
+                               current_channel_id=channel_id, current_class_id=current_class_id,
+                               topic_list=topic_list, form=form)
 
 
-@app.route("/detail.html")
-def my_detail():
+@app.route("/detail_<key>.html")
+def my_detail(key):
     """投票详细页"""
-    login_flag = is_login(session)  # 用户是否已登录
-    if login_flag:
-        try:
-            user_img_url = session['user_img_url']
-        except KeyError:
-            user_img_url = ""
-        user_img_url = '../static/image/guest.png' if user_img_url == "" else session['user_img_url']
-        user_level = 1  # 暂时替代
-        return render_template("detail.html", login_flag=login_flag,
-                               user_img_url=user_img_url, user_level=user_level)
+
+    form = RequestLoginForm()
+    result = topic.topic_detail_user(top_id=key)
+    if len(result['data']) == 0:
+        abort(404)
     else:
-        return render_template("detail.html", login_flag=login_flag)
+        topic_info = result['data']
+        surplus = surplus_datetime(topic_info['end_date'])  # 剩余时间
+        all_view_count = vote_tools.get_view_count(topic_id=key)  # 浏览总数
+        query_vote = vote_tools.get_vote_count(key)  # 查询　投票人数
+        support_a = query_vote['support_a']
+        support_b = query_vote['support_b']
+        join_count = support_b + support_a  # 投票总人数
+        side_bar_list = topic.side_bar_topic_list()  # 侧边栏的列表
+        if support_a == 0 and join_count == 0:
+            blue_width = 50
+        else:
+            blue_width = int((support_a / join_count) * 1000) / 10
+        red_width = int(1000 - blue_width * 10) / 10
+
+        login_flag = is_login(session)  # 用户是否已登录
+
+        if login_flag:
+            try:
+                user_img_url = session['user_img_url']
+            except KeyError:
+                user_img_url = ""
+            user_img_url = '../static/image/guest.png' if user_img_url == "" else session['user_img_url']
+            user_level = 1  # 暂时替代
+
+            return render_template("detail.html", topic_info=topic_info, surplus=surplus, join_count=join_count,
+                                   blue_width=blue_width, red_width=red_width, all_view_count=all_view_count, form=form,
+                                   login_flag=login_flag, user_img_url=user_img_url, user_level=user_level,
+                                   side_bar_list=side_bar_list)
+
+        else:
+            return render_template("detail.html", topic_info=topic_info, surplus=surplus, join_count=join_count,
+                                   blue_width=blue_width, red_width=red_width, all_view_count=all_view_count, form=form,
+                                   login_flag=login_flag, side_bar_list=side_bar_list)
 
 
 @app.route("/login", methods=['post', 'get'])
@@ -298,15 +337,32 @@ def user_center_voter():
     """用户中心投票页面"""
     login_flag = is_login(session)  # 用户是否已登录
     if login_flag:
+        """取用户名和密码"""
         try:
-            user_img_url = session['user_img_url']
+            user_id = session['user_id']
+            user_password = session['user_password']
         except KeyError:
-            user_img_url = ""
-        user_img_url = '../static/image/guest.png' if user_img_url == "" else session['user_img_url']
-        user_level = 1  # 暂时替代
-        return render_template("user_center_voter.html",
-                               login_flag=login_flag,
-                               user_img_url=user_img_url, user_level=user_level)
+            abort(403)
+        query_result = user.get_user_info(user_id, user_password)
+        if query_result['message'] == "success":
+            user_info = query_result['data']
+            try:
+                user_img_url = session['user_img_url']
+            except KeyError:
+                user_img_url = ""
+            user_img_url = '../static/image/guest.png' if user_img_url == "" else session['user_img_url']
+            user_level = 1  # 暂时替代
+            created_topics = topic.fetch_created_topics(user_id)
+            joined_topics = topic.fetch_joined_topics(user_id)
+            starred_topics = topic.fetch_starred_topics(user_id)
+            print(created_topics)
+            return render_template("user_center_voter.html",
+                                   login_flag=login_flag,
+                                   user_img_url=user_img_url, user_level=user_level,
+                                   user_info = user_info,
+                                   created_topics = created_topics,
+                                   joined_topics = joined_topics,
+                                   starred_topics = starred_topics)
     else:
         return render_template("user_center_voter.html", login_flag=login_flag)
 
@@ -356,12 +412,6 @@ def user_center_info():
         else:
             return query_result['message']
     else:
-        """
-        return render_template("user_center_info.html",
-                               default_zone=default_zone,
-                               children_list=children_list,
-                               zone_dict=zone_dict, login_flag=login_flag)
-        """
         abort(404)
 
 
@@ -446,6 +496,29 @@ def user_upload():
             filepath = '../static/upload/images/' + filename
             return ab + "|" + filepath
 
+        else:
+            return "只允许图片类型的文件"
+    else:
+        return "未授权的访问"
+
+
+@app.route('/user_portrait_upload', methods=('GET', 'POST'))
+@login_required_user
+def user_portrait_upload():
+    """用户上传图片"""
+    astr = request.form.get("img_csrf")
+    if check_img_csrf(astr):
+        file = request.files['myfile']
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)  # 取文件类型
+            filename = datetime.datetime.now().strftime("%Y%m%d%H%M%S%f") + str(random.randint(10, 99)) + "." + \
+                       filename  # 格式化到毫秒再加一个任意数
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+            filepath = '../static/upload/images/' + filename
+            user.edit_user(user_id= session['user_id'],user_img_url=filepath)
+            session['user_img_url']=filepath
+            return filepath
         else:
             return "只允许图片类型的文件"
     else:
@@ -669,7 +742,7 @@ def view_topic(key):
     support_a = query_vote['support_a']
     support_b = query_vote['support_b']
     join_count = support_b + support_a  # 投票总人数
-    if support_a == 0 or join_count == 0:
+    if support_a == 0 and join_count == 0:
         blue_width = 50
     else:
         blue_width = int((support_a / join_count) * 1000) / 10
@@ -702,7 +775,7 @@ def vote():
         message = result
 
     else:
-        message['message'] = '未登录'
+        message['message'] = '未登录'  # 并非投票要求登录，这个提示是给刷投票的机器准备的
 
     return json.dumps(message)
 

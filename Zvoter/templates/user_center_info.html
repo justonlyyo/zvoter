@@ -41,12 +41,12 @@
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                             <div class="row">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                    <img class="img img-circle" id="user_img" src="../static/image/logo.png">
+                                    <img class="img img-circle" id="user_img" src="{{ user_img_url }}">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                    <div id="user_level">LV5</div>
+                                    <div id="change_portrait" class="change_portrait">更换头像</div>
                                 </div>
                             </div>
                         </div>
@@ -54,19 +54,25 @@
                             <div class="row">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <div class="base_info_label">昵称：</div>
-                                    <div id="nickname"></div>
+                                    <div >{{user_info.user_nickname}}</div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <div class="base_info_label">登录名：</div>
-                                    <div id="user_name">156****7678</div>
+                                    <div >{{user_info.user_phone}}</div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <div class="base_info_label">性别：</div>
-                                    <div id="user_sex">女</div>
+                                    <div >{{user_info.user_sex if user_info.user_sex != '' else '保密'}}</div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="base_info_label">等级：</div>
+                                    <div >LV {{user_level}}</div>
                                 </div>
                             </div>
                         </div>
@@ -348,6 +354,17 @@
             </div>
         </div>
     </div>
+
+<!--头像上传代码-->
+<form id="file_form" style="display: none" enctype="multipart/form-data" method="post" target="upload_portrait_target"
+      action="/user_portrait_upload">
+    <input id="my_file" type="file" name="myfile"/>
+    <input type="hidden" id="img_csrf" name="img_csrf">
+    <input id="submit_img_button" type="submit" value="提交"/>
+</form>
+<!--接收头像上传的返回信息-->
+<iframe style="display: none" id="upload_portrait_target" name="upload_portrait_target"></iframe>
+
 {% endblock %}
 {% block bottom %}
     <!--瀑布流，不需要底部-->
