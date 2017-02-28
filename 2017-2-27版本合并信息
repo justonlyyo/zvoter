@@ -1,0 +1,24 @@
+flask_server.py
+
+１.函数　ｕｓｅｒ_center_voter　的改动保留。
+2. 函数　user_portrait_upload　保留
+
+topic.py
+
+新增的四个fetch_开头的函数保留。
+
+
+user_center_voter.js 文件保留。
+
+
+user_center_voter.html和user_center_info.html的更改保留。前者的单提交图片的ｕｒｌ变更为/user_uploads
+
+user_center_voter.css　的更改保留。
+
+user_center_voter.js 的更改保留
+
+
+
+
+
+
