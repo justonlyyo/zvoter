@@ -64,27 +64,32 @@ $(function () {
 
     });
 
-    // 图片上传
-    $(".add_img").click(function () {
-        var $this = $(this);
-        $("#my_file").val("").click().change(function () {
-            // 请求img_csrf
-            $.post("/img_csrf", function (data) {
-                var data = JSON.parse(data);
-                var the_val = data['id'] + "|" + data['val'];
-                $("#img_csrf").val(the_val);
-                var ab = $this.attr("data-ab");
-                $("#file_select").val(ab);
+    // 文件改动的监听事件
+    var $current_add_img = null;
+    $("#my_file").change(function () {
+        // 请求img_csrf
+        $.post("/img_csrf", function (data) {
+            var data = JSON.parse(data);
+            var the_val = data['id'] + "|" + data['val'];
+            $("#img_csrf").val(the_val);
+            var ab = $current_add_img.attr("data-ab");
+            $("#file_select").val(ab);
 //                    show_tips(1);  // 显示上传提示框
-                // 确认接收容器
-                $("#file_form").attr("target", "exec_target_" + ab);
-                $("#submit_img_button").click();  // 提交文件
-                var file_name = $("#my_file").val();
-                $this.attr("data-url", file_name);
-
-            });
+            // 确认接收容器
+            $("#file_form").attr("target", "exec_target_" + ab);
+            $("#submit_img_button").click();  // 提交文件
+            var file_name = $("#my_file").val();
+            $current_add_img.attr("data-url", file_name);
 
         });
+
+    });
+
+
+    // 图片上传
+    $(".add_img").click(function () {
+        $current_add_img = $(this);
+        $("#my_file").val("").click();
     });
 
     // 上传图片成功后

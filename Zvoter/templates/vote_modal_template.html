@@ -1,0 +1,128 @@
+<!--模态框开始-->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h5 class="modal-title" id="myModalLabel">发起投票</h5>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="input_title" class="col-sm-2 control-label">标题名</label>
+                        <div class="col-sm-10">
+                            <input id="topic_title" type="text" class="form-control" id="input_title" placeholder="最多20个字">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="input_content" class="col-sm-2 control-label">话题描述</label>
+                        <div class="col-sm-10">
+                            <textarea id="topic_content" class="form-control" id="input_content" placeholder="最多150字"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="big_class" class="col-sm-2 control-label">分类</label>
+                        <div class="col-sm-3">
+                            <select id="big_class">
+                                <option value="0"></option>
+                                {% for channel in channel_list %}
+                                <option value="{{ channel.channel_id }}">{{ channel.channel_name }}</option>
+                                {% endfor %}
+
+                            </select>
+                        </div>
+                        <div class="col-sm-1"></div>
+                        <div class="col-sm-3">
+                            <select id="small_class">
+                                <!--
+                                <option value="宠物">宠物</option>
+                                <option value="美妆">美妆</option>
+                                -->
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="select_a" class="col-sm-2 control-label">选项1</label>
+                        <div class="col-sm-7">
+                            <textarea  class="form-control" id="select_a" placeholder="最多150字"></textarea>
+                        </div>
+                        <div class="col-sm-1"></div>
+                        <div class=" col-sm-2"><a data-ab="a" class="add_img">添加图片</a></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="select_b" class="col-sm-2 control-label">选项2</label>
+                        <div class="col-sm-7">
+                            <textarea class="form-control" id="select_b" placeholder="最多150字"></textarea>
+                        </div>
+                        <div class="col-sm-1"></div>
+                        <div class=" col-sm-2"><a data-ab='b' class="add_img">添加图片</a></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="select_b" class="col-sm-2 control-label">投票时间</label>
+                        <div class="col-sm-2">
+                            <label>
+                                <input id="set_date_range" type="radio"> 开始
+                            </label>
+                        </div>
+                        <div class="col-sm-3">
+                            <input type="text" id="begin_date"
+                                   onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+                        </div>
+                        <div class="col-sm-2">
+                            <label>
+                                结束
+                            </label>
+                        </div>
+                        <div class="col-sm-3">
+                            <input type="text" id="end_date"
+                                   onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-2">
+                            <label>
+                                <input id="set_forever" type="radio"> 永久
+                            </label>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" id="img_a_url">
+                <input type="hidden" id="img_b_url">
+                {{ form.hidden_tag() }}
+                <button type="button" id="vote_submit_btn" class="btn btn-primary">确认发布</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--开始图片上传代码-->
+<form id="file_form" style="display: none" enctype="multipart/form-data" method="post" target="exec_target"
+      action="/user_upload">
+    <input id="my_file" type="file" name="myfile"/>
+    <input id="file_select" type="hidden" name="file_select">
+    <input type="hidden" id="img_csrf" name="img_csrf">
+    <input id="submit_img_button" type="submit" value="提交"/>
+</form>
+<!--这个iframe是用来接收返回的信息的，-->
+<iframe style="display: none" id="exec_target_a" name="exec_target_a"></iframe>
+<!--这个iframe是用来接收返回的信息的，-->
+<iframe style="display: none" id="exec_target_b" name="exec_target_b"></iframe>
+<!--图片上传代码结束-->
+
+<!-- 上传文件提醒框开始-->
+<div id="upload_tips">
+    <div class="upload_inner">
+        <p>正在上传文件，请稍后...</p>
+    </div>
+</div>
+<!-- 上传文件提醒框结束-->
+
+<!--提交话题的脚本-->
+<script src="../static/js/submit_topic.js"></script>
+
+<!--模态框结束-->

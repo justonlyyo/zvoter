@@ -30,6 +30,7 @@
     border:none;
     font-size:16px;
     padding:3px 12px 6px 12px;
+    background-color: rgba(245, 245, 245, 1);
 }
 .sort_select_area{
     text-align: center;
@@ -87,6 +88,13 @@
 /*话题部分*/
 .topic{
     font-size:14px;
+    height:38px;
+    overflow: hidden;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+.topic a{
+    overflow: hidden;
 }
 .topic>img:first-child{
     vertical-align: inherit;
@@ -96,11 +104,13 @@
     padding-bottom:10px;
 }
 .img_a,.img_b{
-    width:100%;
-    height:100%;
+    width:10rem;
+    height:7.5rem;
 }
 .point_str{
     font-size:12px;
+    height:50px;
+    overflow: hidden;
 }
 .my_sep{
     border-color:rgba(159,167,183,1);

@@ -1031,7 +1031,12 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-6 col-xs-12">
+                            <!--侧边栏列表-->
                             <ul class="my_ul">
+                                {% for topic in side_bar_list %}
+                                <li class="list_li"><a href="/detail_{{ topic.top_id }}.html">{{ topic.top_title }}</a></li>
+                                {% endfor %}
+                                <!--
                                 <li class="list_li">我是标是标题我是标题</li>
                                 <li class="list_li">我是标题我是标题题我是标题</li>
                                 <li class="list_li">我是标题我是标题我是标题我是标题</li>
@@ -1041,6 +1046,7 @@
                                 <li class="list_li">我是标题我是标题我是标题我是标题</li>
                                 <li class="list_li">w#######</li>
                                 <li class="list_li">我是标题我是标题题我是标题</li>
+                                -->
                             </ul>
                         </div>
                         <div class="hidden-lg hidden-md col-sm-6 hidden-xs">

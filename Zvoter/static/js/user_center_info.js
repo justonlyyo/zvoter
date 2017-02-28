@@ -2,6 +2,33 @@
  * Created by walle on 2017/1/31.
  */
 $(function () {
+    // 头像上传
+    $(".change_portrait").click(function () {
+        var $this = $(this);
+        $("#my_file").val("").click().change(function () {
+            // 请求img_csrf
+            $.post("/img_csrf", function (data) {
+                var data = JSON.parse(data);
+                var the_val = data['id'] + "|" + data['val'];
+                $("#img_csrf").val(the_val);
+                $("#submit_img_button").click();  // 提交文件
+                var file_name = $("#my_file").val();
+                $this.attr("data-url", file_name);
+            });
+
+        });
+    });
+
+    // 头像上传成功后
+    $("#upload_portrait_target").load(function () {
+        var data = $(window.frames['upload_portrait_target'].document.body).html();  //上传文件返回
+        console.log(data);
+        if ($.trim(data) != "") {
+            $("#user_img").attr("src", data);
+            $("#login_user_pic").attr("src", data);
+        }
+    });
+
     // 选择城市的回调函数
     function select_zone(data) {
         var data = JSON.parse(data);
