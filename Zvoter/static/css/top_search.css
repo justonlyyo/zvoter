@@ -26,6 +26,7 @@ a:hover{
      }
 
 }
+
 #min_nav_a{
     /*background: url('/static/image/guest.png');*/
 }
@@ -80,6 +81,14 @@ a:hover{
 #my_search_word,#my_search_btn{
     border-color: rgba(78,183,205,1);
 }
+#my_search_word{
+    font-size: 18px;
+}
+#my_search_btn{
+    font-size:17px;
+    letter-spacing: 10px;
+    padding:4px 5px 4px 15px;
+ }
 #my_search_btn{
     background-color: rgba(78,183,205,1);
     color:white;
@@ -89,6 +98,9 @@ a:hover{
 }
 .key_words_area{
     margin-top: 14px;
+}
+.to_index:hover{
+    cursor: pointer;
 }
 .key_words_area a{
     text-decoration: none;
@@ -160,7 +172,7 @@ a:hover{
     width: 4em;
     height:4em;
     margin-bottom:0.8em;
-    border-radius: 5px;
+    /*border-radius: 5px;*/
 
 }
 

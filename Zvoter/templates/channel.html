@@ -98,7 +98,7 @@
                 <!--排序部分开始-->
                 <div class="dropdown sort_select_area col-lg-2 col-md-2 col-sm-2 hidden-xs">
                   <button class="btn btn-default dropdown-toggle" type="button" id="sort_select_btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    综合排序
+                    热门度
                     <span class="caret"></span>
                   </button>
                   <ul class="dropdown-menu" aria-labelledby="sort_area">
@@ -124,11 +124,11 @@
             {% endif %}
             {% if loop.index % 3 == 1 %}
                 <!--左开始-->
-                <div data-id="{{ topic_info.top_id }}" data-index="{{ loop.index }}" class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <div data-id="{{ topic_info.top_id }}" data-index="{{ loop.index }}" class="my_item col-lg-4 col-md-4 col-sm-4 col-xs-12">
                     <div class="row">
                         <div class="topic col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <img src="../static/image/icon_hot_red.png">
-                            话题:<a href="/detail_{{ topic_info.top_id }}.html">{{ topic_info.top_title }}</a>
+                           <a href="/detail_{{ topic_info.top_id }}.html">{{ topic_info.top_title }}</a>
                         </div>
                     </div>
                     <div class="row">
@@ -172,9 +172,9 @@
                             </div>
                             <div class="about_num about_right">
                                 争议指数：
+                                {% for i in range(topic_info.bomb_count) %}
                                 <img src="../static/image/icon_dispute.png">
-                                <img src="../static/image/icon_dispute.png">
-                                <img src="../static/image/icon_dispute.png">
+                                {% endfor %}
                             </div>
                         </div>
                     </div>
@@ -183,11 +183,11 @@
             {% endif %}
             {% if loop.index % 3 == 2 %}
                 <!--中开始-->
-                <div data-id="{{ topic_info.top_id }}" data-index="{{ loop.index }}" class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <div data-id="{{ topic_info.top_id }}" data-index="{{ loop.index }}" class="my_item col-lg-4 col-md-4 col-sm-4 col-xs-12">
                     <div class="row">
                         <div class="topic col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <img src="../static/image/icon_hot_red.png">
-                            话题:<a href="/detail_{{ topic_info.top_id }}.html">{{ topic_info.top_title }}</a>
+                           <a href="/detail_{{ topic_info.top_id }}.html">{{ topic_info.top_title }}</a>
                         </div>
                     </div>
                     <div class="row">
@@ -245,11 +245,11 @@
             {% endif %}
             {% if loop.index % 3 == 0 %}
                 <!--右开始-->
-                <div data-id="{{ topic_info.top_id }}" data-index="{{ loop.index }}" class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <div data-id="{{ topic_info.top_id }}" data-index="{{ loop.index }}" class="my_item col-lg-4 col-md-4 col-sm-4 col-xs-12">
                     <div class="row">
                         <div class="topic col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <img src="../static/image/icon_hot_red.png">
-                            话题:<a href="/detail_{{ topic_info.top_id }}.html">{{ topic_info.top_title }}</a>
+                           <a href="/detail_{{ topic_info.top_id }}.html">{{ topic_info.top_title }}</a>
                         </div>
                     </div>
                     <div class="row">
@@ -325,7 +325,9 @@
             <div class="modal-body">
                 <form class="form-horizontal">
                     <div class="form-group">
-                        <label for="input_title" class="col-sm-2 control-label">标题名</label>
+                        <label for="input_title" class="col-sm-2 control-label">
+                            标题名<span class="glyphicon glyphicon-exclamation-sign red_alert"></span>
+                        </label>
                         <div class="col-sm-10">
                             <input id="topic_title" type="text" class="form-control" id="input_title" placeholder="最多20个字">
                         </div>
@@ -337,7 +339,10 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="big_class" class="col-sm-2 control-label">分类</label>
+                        <label for="big_class" class="col-sm-2 control-label">
+                            分类
+                            <span class="glyphicon glyphicon-exclamation-sign red_alert"></span>
+                        </label>
                         <div class="col-sm-3">
                             <select id="big_class">
                                 <option value="0"></option>
@@ -359,7 +364,9 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="select_a" class="col-sm-2 control-label">选项1</label>
+                        <label for="select_a" class="col-sm-2 control-label">
+                            选项1<span class="glyphicon glyphicon-exclamation-sign red_alert"></span>
+                        </label>
                         <div class="col-sm-7">
                             <textarea  class="form-control" id="select_a" placeholder="最多150字"></textarea>
                         </div>
@@ -367,7 +374,9 @@
                         <div class=" col-sm-2"><a data-ab="a" class="add_img">添加图片</a></div>
                     </div>
                     <div class="form-group">
-                        <label for="select_b" class="col-sm-2 control-label">选项2</label>
+                        <label for="select_b" class="col-sm-2 control-label">
+                            选项2<span class="glyphicon glyphicon-exclamation-sign red_alert"></span>
+                        </label>
                         <div class="col-sm-7">
                             <textarea class="form-control" id="select_b" placeholder="最多150字"></textarea>
                         </div>
@@ -409,7 +418,7 @@
                 <input type="hidden" id="img_a_url">
                 <input type="hidden" id="img_b_url">
                 {{ form.hidden_tag() }}
-                <button type="button" id="vote_submit_btn" class="btn btn-primary">确认发布</button>
+                <button type="button" id="vote_submit_btn" class="btn btn-primary">提交审核</button>
             </div>
         </div>
     </div>
@@ -437,8 +446,14 @@
 	font-size: 14px;
 	padding: 10px 5px;
 	display: inline-block;
-}
-
+    }
+    .red_alert{
+        color:red;
+    }
+    .form-group select{
+    width:100%;
+    padding: 5px 10px;
+    }
 </style>
 
 <!--提交话题的脚本-->

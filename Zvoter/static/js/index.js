@@ -4,7 +4,7 @@
 $(function(){
     // 初始化banner
     $(function(){
-        $('.my-slider').unslider({delay: 2000,
+        $('.my-slider').unslider({delay: 5000,
       dots: true,autoplay:true,
       fluid: true});
     });

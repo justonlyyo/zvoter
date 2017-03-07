@@ -16,6 +16,7 @@ import sys
 import topic
 import base64
 import vote_tools
+import notification
 
 port = 5666  # 定义端口
 app = Flask(__name__)
@@ -144,13 +145,35 @@ def my_channel(channel_id):
     """获取频道的话题列表"""
     topic_list = topic.channel_topic_list(channel_id=channel_id, class_id=current_class_id)
 
-    if login_flag:
+    """计算争议度"""
+    for x in topic_list:
+        val = x.pop("a_vs_b")
+        val_list = val.decode(encoding='utf8').split(" vs ")
+        if len(val_list) != 2:
+            """防止新帖子查询到的值是空字符的问题"""
+            val_a = 0
+            val_b = 0
+        else:
+            val_a = int(val_list[0])
+            val_b = int(val_list[1])
+        temp_per = 0 if val_a + val_b == 0 else (val_a if val_a < val_b else val_b) / (val_a + val_b)
+        if 0.4 <= temp_per <= 0.5:
+            bomb_count = 3
+        elif 0.3 < temp_per < 0.4:
+            bomb_count = 2
+        elif temp_per <= 0.3:
+            bomb_count = 1
+        else:
+            bomb_count = 0
+        x['bomb_count'] = bomb_count
+
+    if login_flag:  # 如果用户已登录
         try:
             user_img_url = session['user_img_url']
         except KeyError:
             user_img_url = ""
         user_img_url = '../static/image/guest.png' if user_img_url == "" else session['user_img_url']
-        user_level = 1  # 暂时替代
+        user_level = 1  # 暂时替代用户等级
 
         return render_template("channel.html", login_flag=login_flag, channel_list=channel_list,
                                current_channel_name=channel_name, class_list=class_list,
@@ -188,8 +211,28 @@ def my_detail(key):
             blue_width = int((support_a / join_count) * 1000) / 10
         red_width = int(1000 - blue_width * 10) / 10
 
-        login_flag = is_login(session)  # 用户是否已登录
+        """计算争议度"""
+        val = topic_info.pop("a_vs_b")
+        val_list = val.decode(encoding='utf8').split(" vs ")
+        if len(val_list) != 2:
+            """防止新帖子查询到的值是空字符的问题"""
+            val_a = 0
+            val_b = 0
+        else:
+            val_a = int(val_list[0])
+            val_b = int(val_list[1])
+        temp_per = 0 if val_a + val_b == 0 else (val_a if val_a < val_b else val_b) / (val_a + val_b)
+        if 0.4 <= temp_per <= 0.5:
+            bomb_count = 3
+        elif 0.3 < temp_per < 0.4:
+            bomb_count = 2
+        elif temp_per <= 0.3:
+            bomb_count = 1
+        else:
+            bomb_count = 0
+        topic_info['bomb_count'] = bomb_count
 
+        login_flag = is_login(session)  # 用户是否已登录
         if login_flag:
             try:
                 user_img_url = session['user_img_url']
@@ -331,6 +374,56 @@ def my_register():
             return json.dumps(message)
 
 
+@app.route("/user_center_notification")
+@login_required_user
+def user_center_notification():
+    """通知中心"""
+    login_flag = is_login(session)  # 用户是否已登录
+    if login_flag:
+        """取用户名和密码"""
+        try:
+            user_id = session['user_id']
+            user_password = session['user_password']
+        except KeyError:
+            abort(403)
+        query_result = user.get_user_info(user_id, user_password)
+        if query_result['message'] == "success":
+            user_info = query_result['data']
+            try:
+                user_img_url = session['user_img_url']
+            except KeyError:
+                user_img_url = ""
+            user_img_url = '../static/image/guest.png' if user_img_url == "" else session['user_img_url']
+            user_level = 1  # 暂时替代
+            notifications=notification.fetch_by_user_id(user_id)
+            return render_template("user_center_notification.html",
+                                   login_flag=login_flag,
+                                   user_img_url=user_img_url, user_level=user_level,
+                                   user_info = user_info,
+                                   notifications = notifications
+                                   )
+    else:
+        return render_template("user_center_notification.html", login_flag=login_flag)
+
+
+@app.route("/mark_notification/<notification_id>",methods=['post'])
+@login_required_user
+def mark_notification(notification_id):
+    """通知中心"""
+    login_flag = is_login(session)  # 用户是否已登录
+    if login_flag:
+        """取用户名和密码"""
+        try:
+            user_id = session['user_id']
+            user_password = session['user_password']
+        except KeyError:
+            abort(403)
+        notification.mark_as_read(notification_id)
+        return json.dumps({"message":"successful"})
+    else:
+        return json.dumps({"message":"failed"})
+
+
 @app.route("/user_center_voter")
 @login_required_user
 def user_center_voter():
@@ -354,15 +447,17 @@ def user_center_voter():
             user_level = 1  # 暂时替代
             created_topics = topic.fetch_created_topics(user_id)
             joined_topics = topic.fetch_joined_topics(user_id)
-            starred_topics = topic.fetch_starred_topics(user_id)
             print(created_topics)
+            print(joined_topics)
             return render_template("user_center_voter.html",
                                    login_flag=login_flag,
                                    user_img_url=user_img_url, user_level=user_level,
                                    user_info = user_info,
                                    created_topics = created_topics,
+                                   count_of_created_topics = len(created_topics),
+                                   count_of_joined_topics=len(joined_topics),
                                    joined_topics = joined_topics,
-                                   starred_topics = starred_topics)
+                                   )
     else:
         return render_template("user_center_voter.html", login_flag=login_flag)
 
