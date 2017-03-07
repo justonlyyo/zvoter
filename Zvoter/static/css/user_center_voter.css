@@ -174,3 +174,36 @@
         margin-bottom: 0em;
     }
 }
+
+/* user_center_notification.css */
+.message{
+    margin: 5px 10px 5px 10px;
+    padding: 10px 10px 10px 10px;
+    background-color: #d0e9c6;
+    border-radius: 3px;
+}
+
+.message .detail_unread{
+    font-weight: bold;;
+}
+
+.message .detail_read{
+    font-weight: normal;
+}
+
+.message .date{
+    color: #adadad;
+    font-size: 15px;
+    text-align: right;
+}
+
+.message .mark_as_read{
+    text-align: right;
+    cursor: pointer;
+    color: #2a6496;
+    font-weight: bold;
+}
+
+.notification_info{
+    display: none;
+}

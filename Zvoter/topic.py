@@ -238,6 +238,7 @@ def fetch_created_topics(user_id):
         print(e)
     finally:
         session.close()
+    return data
 
 
 def fetch_joined_topics(user_id):
@@ -263,11 +264,6 @@ def fetch_joined_topics(user_id):
     return data
 
 
-def fetch_starred_topics(user_id):
-    """根据用户id获取收藏过的话题"""
-    return []
-
-
 """分支版本追加的函数，个人中心用，代码区段结束"""
 
 
@@ -275,15 +271,19 @@ def topic_detail_user(top_id):
     """用户根据id获取单个话题的详细内容,参数中必须要有一个top_id"""
     ses = my_db.sql_session()
     message = {'message': "success"}
+    child_sql = "(SELECT CONCAT_WS(' vs ',SUM(support_a),SUM(support_b))  " \
+                "FROM vote_count WHERE vote_count.topic_id=topic_info.top_id)"  # 查询ab支持度的子查询
     sql = "SELECT top_id,top_title,top_content,viewpoint_a,viewpoint_b,can_show,img_url_a,img_url_b," \
-          "channel_info.channel_name,class_info.class_name,end_date,begin_date," \
-          "user_info.user_nickname FROM topic_info,channel_info,class_info,user_info " \
+          "topic_info.channel_id,channel_info.channel_name,topic_info.class_id," \
+          "class_info.class_name,end_date,begin_date," \
+          "user_info.user_nickname,{} FROM topic_info,channel_info,class_info,user_info " \
           "WHERE user_info.user_id=topic_info.author " \
           "AND channel_info.channel_id=topic_info.channel_id and can_show=1 and " \
           "class_info.class_id=topic_info.class_id AND  " \
-          "top_id='{}'".format(top_id)
+          "top_id='{}'".format(child_sql, top_id)
     columns = ['top_id', 'top_title', 'top_content', 'viewpoint_a', 'viewpoint_b', 'can_show',
-               'img_url_a', 'img_url_b', 'channel_name', 'class_name', 'end_date', 'begin_date', 'author']
+               'img_url_a', 'img_url_b', 'channel_id', 'channel_name','class_id', 'class_name', 'end_date',
+               'begin_date', 'author', "a_vs_b"]
     proxy_result = ses.execute(sql)
     result = proxy_result.fetchone()
     result = my_db.str_format(result)
@@ -306,21 +306,25 @@ def __channel_topic_list(order_by='hot', class_id=0, channel_id=0, page_index=1)
     ses = my_db.sql_session()
     key_str = "top_id,top_title,viewpoint_a,viewpoint_b,img_url_a,img_url_b"
     """生成ｓｑｌ语句"""
+    child_sql = "(SELECT CONCAT_WS(' vs ',SUM(support_a),SUM(support_b))  " \
+                "FROM vote_count WHERE vote_count.topic_id=topic_info.top_id)"  # 查询ab支持度的子查询
     if channel_id == 0 and class_id == 0:
         raise ValueError("频道ｉｄ和列别ｉｄ不能为空")
     elif channel_id != 0 and class_id == 0:
         """ｃｌａｓｓ—id为０表示是频道页查询,返回此频道下最新的话题"""
-        sql = "select {} from topic_info where can_show=1 and channel_id={} order by create_date desc limit {},{}". \
-            format(key_str, channel_id, (page_index - 1) * every_page, every_page)
+        sql = "select {},{} from topic_info where can_show=1 and channel_id={} order by create_date desc limit {},{}". \
+            format(key_str, child_sql, channel_id, (page_index - 1) * every_page, every_page)
     elif class_id != 0:
         """ｃｌａｓｓ—id和channel_id都不为零表示是频道页点击类别的链接时查询"""
-        sql = "select {} from topic_info where can_show=1 and class_id={} order by " \
-              "create_date desc limit {},{}".format(key_str, class_id, (page_index - 1) * every_page, every_page)
+        sql = "select {},{} from topic_info where can_show=1 and class_id={} order by " \
+              "create_date desc limit {},{}".format(key_str, child_sql, class_id, (page_index - 1) * every_page,
+                                                    every_page)
 
     proxy = ses.execute(sql)
     result = proxy.fetchall()
     ses.close()
     columns = key_str.split(",")
+    columns.append("a_vs_b")
     result = [dict(zip(columns, x)) for x in result]
     for x in result:
         x.update({"view_count": get_view_count(x['top_id']), "vote_count": sum_vote_count(x['top_id'])})
@@ -350,7 +354,8 @@ def channel_topic_list(order_by='hot', channel_id=0, class_id=0, page_index=1):
     else:
         result = cache.get(key)
         if result is None:
-            result = __channel_topic_list(order_by=order_by, channel_id=channel_id, page_index=page_index)
+            result = __channel_topic_list(order_by=order_by, channel_id=channel_id, class_id=class_id,
+                                          page_index=page_index)
             cache.set(key, result, timeout=60)
 
         return result
@@ -396,10 +401,13 @@ def index_topic_list():
         index_topic_dict = dict()  # 结果集容器
         columns_str = "channel_id,class_id,top_id,top_title"
         columns = columns_str.split(",")
+        columns.append('view_count')
         ses = my_db.sql_session()
         for channel_id in channel_id_list:
             """首页查询的结果将不会排除过期的话题／投票"""
-            sql = "select {0} from topic_info where can_show=1 and channel_id={1} " \
+            sql = "select {0},(select count(view_count.view_id) from view_count where " \
+                  "topic_info.top_id=view_count.topic_id) from topic_info where can_show=1 " \
+                  "and channel_id={1} " \
                   "order by create_date desc limit 0,5".format(columns_str, channel_id)
             proxy = ses.execute(sql)
             temp = proxy.fetchall()

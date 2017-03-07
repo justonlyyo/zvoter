@@ -28,25 +28,36 @@ $(function () {
 
     });
 
+    // 默认选择永久
+    $("#set_forever").click();
+
     // 文件改动的监听事件
     var $current_add_img = null;
     $("#my_file").change(function () {
-        // 请求img_csrf
-        $.post("/img_csrf", function (data) {
-            var data = JSON.parse(data);
-            var the_val = data['id'] + "|" + data['val'];
-            $("#img_csrf").val(the_val);
-            var ab = $current_add_img.attr("data-ab");
-            $("#file_select").val(ab);
-//                    show_tips(1);  // 显示上传提示框
-            // 确认接收容器
-            $("#file_form").attr("target", "exec_target_" + ab);
-            $("#submit_img_button").click();  // 提交文件
-            var file_name = $("#my_file").val();
-            $current_add_img.attr("data-url", file_name);
+        // 检测信息
+        var file_size = $(this)[0].files[0].size;
+        console.log(file_size);
+        if(file_size > 300*1024){
+            alert("图片尺寸不可大于800K");
+            return false;
+        }
+        else{
+            // 请求img_csrf
+            $.post("/img_csrf", function (data) {
+                var data = JSON.parse(data);
+                var the_val = data['id'] + "|" + data['val'];
+                $("#img_csrf").val(the_val);
+                var ab = $current_add_img.attr("data-ab");
+                $("#file_select").val(ab);
+    //                    show_tips(1);  // 显示上传提示框
+                // 确认接收容器
+                $("#file_form").attr("target", "exec_target_" + ab);
+                $("#submit_img_button").click();  // 提交上传的文件
+                var file_name = $("#my_file").val();
+                $current_add_img.attr("data-url", file_name);
 
-        });
-
+            });
+        }
     });
 
     // 图片上传
@@ -110,10 +121,11 @@ $(function () {
             alert("标题不能为空");
             return false;
         }
+        /*
         else if (topic_content == "") {
             alert("话题描述不能为空");
             return false;
-        }
+        }*/
         else if (select_a == "") {
             alert("选项1不能为空");
             return false;
