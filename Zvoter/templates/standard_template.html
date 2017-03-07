@@ -38,10 +38,12 @@
     <div class="row top_search_row">
         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-xs-12">
             <div class="row">
-                <div class="col-lg-1 col-md-1 col-sm-2 hidden-xs">
-                    <img id="logo" class="img" src="../static/image/logo.png">
+                <div class="col-lg-2 col-md-2 col-sm-2 hidden-xs">
+                    <img id="logo" class="img to_index" src="../static/image/logo.png">
                 </div>
-                <div class="col-lg-9 col-md-9 col-sm-8 col-xs-10">
+                {% block custom_search_width %}
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-10">
+                {% endblock %}
                     <!--搜索框-->
                     <div class="col-lg-9 col-lg-offset-2 col-md-9 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
                         <div class="row">
@@ -77,6 +79,7 @@
 
                 </div>
 
+                {% block login_zone %}
                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
                     <span style="display: none" id="login_flag" >{{ login_flag }}</span>
                     {% if not login_flag %}
@@ -102,7 +105,7 @@
                         <div class="row">
                             <div  class="login_area col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <div>
-                                    <img class="img" id="login_user_pic" src="{{ user_img_url }}">
+                                    <img class="img img-circle" id="login_user_pic" src="{{ user_img_url }}">
                                 </div>
                                 <div id="user_level" >
                                 LV {{ user_level }}
@@ -114,6 +117,7 @@
                         </div>
                     {% endif %}
                 </div>
+                {% endblock %}
             </div>
         </div>
     </div>

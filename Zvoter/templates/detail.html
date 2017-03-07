@@ -12,10 +12,10 @@
             <!--第一行-->
             <div class="row">
                 <div class="my_path col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div><a><img src="../static/image/icon_left.png">返回首页</a></div>
-                    <div>{{ topic_info.channel_name }}</div>
+                    <div><a href="/"><img src="../static/image/icon_left.png">返回首页</a></div>
+                    <div><a href="channel_{{ topic_info.channel_id }}.html">{{ topic_info.channel_name }}</a></div>
                     -
-                    <div>{{ topic_info.class_name }}</div>
+                    <div><a href="channel_{{ topic_info.channel_id }}.html?class_id={{ topic_info.class_id }}">{{ topic_info.class_name }}</a></div>
                 </div>
             </div>
             <!--第二行-->
@@ -31,9 +31,9 @@
                             </div>
                             <div class="about_num margin_left_30">
                                 争议指数：
+                                {% for i in range(topic_info.bomb_count) %}
                                 <img src="../static/image/icon_dispute.png">
-                                <img src="../static/image/icon_dispute.png">
-                                <img src="../static/image/icon_dispute.png">
+                                {% endfor %}
                             </div>
                         </div>
                     </div>

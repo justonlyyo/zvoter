@@ -2,6 +2,7 @@
     margin-top:1.5em ;
     margin-bottom:1.5em ;
     line-height:3em;
+    padding-right:4rem;
 }
 .blue_block{
     width:0.5em;
@@ -129,4 +130,8 @@
 }
 .topic_row{
     padding-bottom:35px;
+}
+/*调整单元的样式*/
+.my_item{
+    padding:0rem 4rem;
 }

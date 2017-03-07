@@ -23,7 +23,7 @@ def get_columns(first=False):
     return json.loads(value.decode())
 
 
-def add_vote_cache(topic_id,support_a, support_b):
+def add_vote_cache(topic_id, support_a, support_b):
     """用户投票时，对缓存中的数据进行操作"""
     cache = my_db.cache
     key = "vote_count_{}".format(topic_id)
@@ -82,7 +82,7 @@ def __get_vote_count(topic_id):
 
 
 def get_vote_count(topic_id, from_db=False):
-    """低级方法。根据话题id获取相关的投票人数,返回的是字典，可以分别查看双方的支持人数"""
+    """高级方法。根据话题id获取相关的投票人数,返回的是字典，可以分别查看双方的支持人数"""
     message = {'message': "success"}
     cache = my_db.cache
     result = cache.get("vote_count_{}".format(topic_id))
