@@ -60,69 +60,87 @@ def get_sign(born_date):
 def check_user_args(**kwargs):
     """检查对user_info进行操作的参数，防止sql注入"""
     flag = True
+    msg = None
     columns = get_columns()
     for k, v in kwargs.items():
         if k not in columns:
             """有多余的参数"""
             flag = False
-            print("有多余的参数")
+            msg = ("有多余的参数")
             break
         elif k == 'user_born_date' or k == "user_address":
             result = my_db.validate_arg(v, "-")
             if not result:
                 flag = result
+                msg = ("user_born_date 或 user_address 验证失败")
                 print("user_born_date 或 user_address 验证失败")
                 break
         elif k == "create_date":
             result = my_db.validate_arg(v, "-:")
             if not result:
                 flag = result
+                msg = ("create_date 验证失败")
                 print("create_date 验证失败")
                 break
         elif k == "user_phone":
             result = my_db.check_phone(v)
             if not result:
                 flag = result
+                msg = ("user_phone 验证失败")
                 print("user_phone 验证失败")
                 break
         elif k == "user_nickname":
             result = my_db.validate_arg(v, "_")
             if not result:
                 flag = result
+                msg = ("user_nickname 验证失败")
                 print("user_nickname 验证失败")
                 break
         elif k == "user_realname":
             result = my_db.validate_arg(v, ".")
             if not result:
                 flag = result
+                msg = ("user_realname 验证失败")
                 print("user_realname 验证失败")
                 break
         elif k == "user_img_url":
             result = my_db.validate_arg(v, "._/-")
             if not result:
                 flag = result
+                msg = ("user_img_url 验证失败")
                 print("user_img_url 验证失败")
                 break
         elif k == "user_mail":
             result = my_db.validate_arg(v, "._@-")
             if not result:
                 flag = result
-                print("user_mail 验证失败")
+                msg = ("user_mail 验证失败")
+                break
+        elif k == "user_open_id":
+            result = my_db.validate_arg(v, "-")
+            if not result:
+                flag = result
+                msg = ("user_open_id 验证失败")
                 break
         else:
             result = my_db.validate_arg(v)
             if not result:
                 flag = result
                 break
-    return flag
+    return flag, msg
 
 
 def add_user(**kwargs):
     """增加用户,参数必须是键值对的形式,注意，暂时没追加微信登录的方式"""
     message = {"message": "success"}
-    if not check_user_args(**kwargs):
-        message["message"] = "参数错误"
+    flag, msg = check_user_args(**kwargs)
+    if not flag:
+        message["message"] = "参数错误 %s"%(msg)
     else:
+        for k, v in kwargs.items():
+            if k == "user_phone" and check_phone_registered(v):
+                message["message"] = "phone registered"
+                return message
         try:
             sql = my_db.structure_sql("add", "user_info", **kwargs)
             session = my_db.sql_session()
@@ -153,8 +171,9 @@ def add_user(**kwargs):
 def edit_user(**kwargs):
     """修改用户资料,参数必须是键值对的形式"""
     message = {"message": "success"}
-    if not check_user_args(**kwargs):
-        message["message"] = "参数错误"
+    flag , msg = check_user_args(**kwargs)
+    if not flag:
+        message["message"] = "参数错误%s"%(msg)
     else:
         user_id = kwargs.pop("user_id", None)
         if user_id is None or len(user_id) != 20:
@@ -277,6 +296,51 @@ def get_user_info(user_id, user_password):
             session.close()
     else:
         message['message'] = "参数错误"
+    return message
+
+
+def check_phone_registered(phone):
+    """查看手机号是否被注册"""
+    session = my_db.sql_session()
+    columns = get_columns()
+    sql = "select " + ",".join(columns) + " from user_info where user_phone='{}'".format(phone)
+    try:
+        proxy_result = session.execute(sql)
+        result = proxy_result.fetchone()
+        if result is None:
+            return False
+        else:
+            return True
+    except Exception as e:
+        return True
+    finally:
+        session.close()
+
+
+def check_wx(user_open_id):
+    """根据用户微信id和密码获取信息"""
+    message = {}
+    session = my_db.sql_session()
+    columns = get_columns()
+    sql = "select " + ",".join(columns) + " from user_info where user_open_id='{}'".format(user_open_id)
+    try:
+        proxy_result = session.execute(sql)
+        result = proxy_result.fetchone()
+        if result is None:
+            message['message'] = "not exists"
+        else:
+            result = my_db.str_format(result)
+            result = dict(zip(columns, result))
+            if result['user_status'] == 1:
+                message["message"] = "exists"
+                message['data'] = result
+            else:
+                message['message'] = "账户已冻结"
+    except Exception as e:
+        print(e)
+        message['message'] = 'fail'
+    finally:
+        session.close()
     return message
 
 

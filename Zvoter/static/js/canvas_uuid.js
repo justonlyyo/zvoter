@@ -20,7 +20,7 @@ $(function(){
     canvas_uuid = b64.slice(-32);
     var topic_id = $("#current_topic_id").text();
     $.get("/view_count?uuid="+Math.random()+"&canvas_uuid="+canvas_uuid+"&topic_id="+topic_id, function(data){
-        //nothing...
+        //打开页面时，进行浏览计数
     });
     //end!
 });

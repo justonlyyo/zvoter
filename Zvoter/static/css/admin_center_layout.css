@@ -1,0 +1,23 @@
+.my_zone{
+    margin-top:50px;
+}
+.my_nav_item{
+    margin: 15px 0px;
+    width: 10rem ;
+}
+.my_nav_zone:first-child{
+    padding-top:40px;
+}
+.my_content_zone{
+    margin-top:50px;
+}
+.zone_bottom,.order_index,th,td{
+    text-align: center;
+}
+#hot_word_zone{
+    display: none;
+}
+.edit_text,.key_word_id{
+    display:none;
+}
+

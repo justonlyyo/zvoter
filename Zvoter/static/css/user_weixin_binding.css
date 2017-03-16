@@ -1,0 +1,18 @@
+.portrait{
+    padding-top: 30px;
+    padding-bottom: 20px;
+}
+
+.chosen{
+    margin-top: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.component-binding{
+    padding-top: 10px;
+}
+
+.binding-weixin-form{
+    display: none;
+}

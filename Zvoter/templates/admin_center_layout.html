@@ -1,0 +1,242 @@
+{% extends "admin_template.html" %}
+{% block extend_js %}
+<script src="../static/js/admin_center_layout.js"></script>
+{% endblock %}
+{% block extend_css %}
+<link rel="stylesheet" href="../static/css/admin_center_layout.css">
+{% endblock %}
+{% block main %}
+<div class="my_nav_zone col-lg-2 col-md-2">
+    <!--侧边栏导航-->
+    <div class="row">
+        <div class="col-lg-12 col-md-12">
+            <button class="my_nav_item btn btn-default btn-primary">
+                Banner
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-md-12">
+            <button class="my_nav_item btn btn-default">
+                Hot Word
+            </button>
+        </div>
+    </div>
+</div>
+<div class="my_content_zone col-lg-10 col-md-10">
+    <!--主显示区域,默认显示banner管理-->
+    <div id="banner_zone" class="row">
+        <div class="col-lg-12 col-md-12">
+            <!--banner管理开始-->
+            <table class="table table-hover" id="banner_table">
+                <tr>
+                    <th>banner排序</th>
+                    <th>banner预览</th>
+                    <th>banner备注</th>
+                    <th>操作</th>
+                </tr>
+
+                {% for banner in banner_list %}
+                    <tr>
+                        <td class="order_index">
+                            <input data-before="{{ banner.order_index }}" type="text" style="width:2em;" value="{{ banner.order_index }}">
+                        </td>
+                        <td class="banner_id" style="display: none">{{ banner.banner_id }}</td>
+                        <td class="banner_url">
+                            {{ banner.banner_url }}
+                        </td><td class="banner_alt">
+                        {{ banner.banner_alt }}
+                    </td>
+                        <td>
+                            <div class="btn-group">
+                                <button class="edit_banner_btn btn btn-xs btn-default">编辑</button>
+                                <button class="delete_banner_btn btn btn-xs btn-default">删除</button>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="3" style="text-align: left">
+                        <button id="add_banner_btn" class="btn btn-sm btn-primary">
+                            添加banner
+                        </button>
+                    </td>
+                </tr>
+            </table>
+            <!--banner管理结束-->
+        </div>
+    </div>
+
+    <div id="hot_word_zone" class="row">
+        <div class="zone_bottom col-lg-12 col-md-12">
+            <!--hot word 开始-->
+            <table class="table table-hover" id="words_table">
+                <tr>
+                    <th>
+                        类型
+                    </th>
+                    <th>
+                        内容
+                    </th>
+                    <th>
+                        操作
+                    </th>
+                </tr>
+                <tr>
+                    <td class="key_word_id">{{ word_dict.hot_word.key_word_id }}</td>
+                    <td class="word_type" data-type="hot_word">搜索热词</td>
+                    <td>
+                        <span class="show_text">
+                            {{ word_dict.hot_word.word_text }}
+                        </span>
+                        <input class="edit_text" type="text" placeholder="以空格分隔搜索热词">
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <button class="edit_text_btn btn btn-xs btn-default">编辑</button>
+                            <button class="save_text_btn btn btn-xs btn-default">保存</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="key_word_id">{{ word_dict.title.key_word_id }}</td>
+                    <td class="word_type" data-type="title">首页title</td>
+                    <td>
+                        <span class="show_text">
+                            {{ word_dict.title.word_text }}
+                        </span>
+                        <input class="edit_text" type="text">
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <button class="edit_text_btn btn btn-xs btn-default">编辑</button>
+                            <button class="save_text_btn btn btn-xs btn-default">保存</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="key_word_id">{{ word_dict.keywords.key_word_id }}</td>
+                    <td class="word_type" data-type="keywords">首页keywords</td>
+                    <td>
+                        <span class="show_text">
+                            {{ word_dict.keywords.word_text }}
+                        </span>
+                        <input class="edit_text" type="text" placeholder="以英文逗号分隔">
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <button class="edit_text_btn btn btn-xs btn-default">编辑</button>
+                            <button class="save_text_btn btn btn-xs btn-default">保存</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="key_word_id">
+                        {{ word_dict.description.key_word_id }}
+                    </td>
+                    <td class="word_type" data-type="description">首页description</td>
+                    <td>
+                        <span class="show_text">
+                            {{ word_dict.description.word_text }}
+                        </span>
+                        <input class="edit_text" type="text">
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <button class="edit_text_btn btn btn-xs btn-default">编辑</button>
+                            <button class="save_text_btn btn btn-xs btn-default">保存</button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <!--hot word 结束-->
+        </div>
+    </div>
+
+    <!--模态框开始-->
+<a id="pop_modal" style="display: none" data-toggle="modal" data-target="#myModal">弹框按钮</a>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h5 class="modal-title" id="myModalLabel" style="text-align: center">添加banner</h5>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+
+                    <div class="form-group">
+                        <label for="banner_url" class="col-sm-2 control-label">
+                            图片地址
+                        </label>
+                        <div class="col-sm-10">
+                            <div class="input-group">
+                                <input id="banner_url" readonly="readonly" type="text" class="form-control" placeholder="你还没上传图片">
+                                <span class="input-group-btn">
+                                    <button id="up_load_img" class="btn btn-default">上传</button>
+                                  </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="banner_alt" class="col-sm-2 control-label">图片描述</label>
+                        <div class="col-sm-10">
+                            <textarea id="banner_alt" class="form-control"  placeholder="最多150字"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div id="view_img" class="col-sm-12">
+                            <!--此处容纳预览banner-->
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="modal-footer" style="text-align: center">
+                <button type="button" id="banner_submit_btn" class="btn btn-primary">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--开始图片上传代码-->
+<form id="file_form" style="display: none" enctype="multipart/form-data" method="post" target="exec_target"
+      action="/upload_banner">
+    <input id="my_file" type="file" name="myfile"/>
+    <input id="submit_img_button" type="submit" value="提交"/>
+</form>
+<!--这个iframe是用来接收返回的信息的，-->
+<iframe style="display: none" id="exec_target" name="exec_target"></iframe>
+<!--图片上传代码结束-->
+<style>
+    #begin_date,#end_date{
+        width:100%;
+    }
+    .add_img {
+	background-color: rgba(78,183,205,1);
+	font-size: 14px;
+	padding: 10px 5px;
+	display: inline-block;
+    }
+    .red_alert{
+        color:red;
+    }
+    .form-group select{
+    width:100%;
+    padding: 5px 10px;
+    }
+</style>
+
+
+
+<!--模态框结束-->
+
+</div>
+{% endblock %}
+
+
+

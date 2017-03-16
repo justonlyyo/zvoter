@@ -47,8 +47,11 @@ def vote(**kwargs):
         """同步道缓存"""
         lock = RLock()
         lock.acquire()
+        # 设置投票计数缓存
         add_vote_cache(kwargs['topic_id'], kwargs['support_a'], kwargs['support_b'])
         lock.release()
+        support = "b" if str(kwargs['support_a']) == "0" else "a"
+        set_voted_cache(kwargs['only_id'], kwargs['topic_id'], support)  # 设置已投票缓存
     except sqlalchemy.exc.IntegrityError as e1:
         """
         re.findall(r"for key '(.+?)'",str) 是从str中找到匹配以for key 'PRIMARY'")
@@ -133,6 +136,59 @@ def __add_view_count(topic_id, only_id, from_ip, browser_type):
     ses.commit()
     ses.close()
     return message
+
+
+def set_voted_cache(only_id, topic_id, support=''):
+    """设置是否已投票缓存"""
+    cache = my_db.cache
+    key = "voted_{}".format(only_id)
+    temp_dict = cache.get(key)
+    if temp_dict is None:
+        if isinstance(topic_id, dict):
+            """从数据库读出来的情况，批量添加，一般是topic_id为key，a/b为值的字典"""
+            cache.set(key, topic_id, timeout=60 * 60 * 2)
+        else:
+            """单独添加一条记录"""
+            cache.set(key, {topic_id: support}, timeout=60 * 60 * 2)
+    else:
+        temp_dict[topic_id] = support
+        cache.set(key, temp_dict, timeout=60 * 60 * 2)
+
+
+def get_voted_cache(only_id, topic_id):
+    """从缓存中取是否已投票数据"""
+    cache = my_db.cache
+    key = "voted_{}".format(only_id)
+    result = cache.get(key)
+    if result is None:
+        return 0  # 代表没有初始化
+    else:
+        result = result.get(topic_id)
+        if result is not None:
+            return result  # 已经初始化，并找到对应的投票记录
+        else:
+            return -1  # 已经初始化，但数组是空的
+
+
+def is_voted(only_id, topic_id, from_db=False):
+    """根据唯一性id和话题id判断此用户是否投过票了，返回字符串，a，b ，或者空字符，空字符代表没有投过票"""
+    result = get_voted_cache(only_id, topic_id)
+    if result == 0 or not from_db:
+        ses = my_db.sql_session()
+        sql = "select topic_id,support_a,support_b from vote_count where only_id='{}'".format(only_id)
+        proxy = ses.execute(sql)
+        result = proxy.fetchall()
+        result = {x[0]: ("b" if x[1] == 0 else "a") for x in result}
+        set_voted_cache(only_id, result)
+        result = result.get(topic_id)
+        if result is not None:
+            return result
+        else:
+            return ''
+    elif result == -1:
+        return ''
+    else:
+        return result
 
 
 def add_view_count(topic_id, only_id, from_ip, browser_type):

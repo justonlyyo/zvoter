@@ -1,8 +1,15 @@
-import requests
-import pyquery as pq
+def coro1():
+    print("C1: Start")
+    print("C1: Stop")
 
-res = requests.get("http://r.qidian.com/recom")
-if res.status_code == 200:
-    temp_html = res.text
-    obj = pq.PyQuery(temp_html)
-    print(obj.text())
+
+def coro2():
+    print("C2: Start")
+    print("C2: a")
+    print("C2: b")
+    print("C2: c")
+    print("C2: Stop")
+
+
+coro1()
+coro2()
