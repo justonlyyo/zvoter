@@ -933,6 +933,27 @@ def view_topic(key):
     else:
         blue_width = int((support_a / join_count) * 1000) / 10
     red_width = 100 - blue_width
+    """计算争议度"""
+    val = topic_info.pop("a_vs_b")
+    val_list = val.decode(encoding='utf8').split(" vs ")
+    if len(val_list) != 2:
+        """防止新帖子查询到的值是空字符的问题"""
+        val_a = 0
+        val_b = 0
+    else:
+        val_a = int(val_list[0])
+        val_b = int(val_list[1])
+    temp_per = 0 if val_a + val_b == 0 else (val_a if val_a < val_b else val_b) / (val_a + val_b)
+    if 0.4 <= temp_per <= 0.5:
+        bomb_count = 3
+    elif 0.3 < temp_per < 0.4:
+        bomb_count = 2
+    elif temp_per <= 0.3:
+        bomb_count = 1
+    else:
+        bomb_count = 0
+    topic_info['bomb_count'] = bomb_count
+
     return render_template("detail.html", topic_info=topic_info, surplus=surplus, join_count=join_count,
                            blue_width=blue_width, red_width=red_width, all_view_count=all_view_count, form=form)
 
