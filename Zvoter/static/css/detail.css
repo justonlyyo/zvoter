@@ -268,7 +268,7 @@
 #my_message,#submit_btn{
     height:52px;
     border:1px solid rgba(78,183,205,1);
-    margin: 24px 0px;
+    margin: 5px 0px 24px;
     font-size:14px;
     color:rgba(159,167,183,1);
     line-height:52px;
@@ -343,4 +343,9 @@
     .margin_top_60{
         margin-top:30px;
     }
+}
+#tips_zone{
+    padding-left:2rem;
+    text-align: left;
+    font-size:12px;
 }

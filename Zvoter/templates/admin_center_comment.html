@@ -1,0 +1,134 @@
+{% extends "admin_template.html" %}
+{% block extend_js %}
+<script src="../static/js/laydate.js"></script>
+<script src="../static/js/admin_center_comment.js"></script>
+{% endblock %}
+{% block extend_css %}
+<link rel="stylesheet" href="../static/css/admin_center_comment.css">
+{% endblock %}
+{% block main %}
+<div class="col-lg-12 col-md-12">
+    <div class="row">
+        <div class="col-lg-12 col-md-12">
+            <div id="user_count">{{ topic_count }}</div>
+        </div>
+    </div>
+    <div class="row">
+        <h6 style="text-align: center;color:#3071a9">评论列表</h6>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-md-12">
+            <table id="user_table" class="table table-hover">
+                <tr>
+                    <th>话题</th>
+                    <th>评论</th>
+                    <th>用户</th>
+                    <th>发布时间</th>
+                    <th>状态</th>
+                    <th class="last_column">操作</th>
+                </tr>
+                {% for comment in comment_data %}
+                <tr id="id_{{ comment.comment_id }}" class="my_comment">
+                    <td class="topic_title">{{ comment.topic_title }}</td>
+                    <td class="comment_text">{{ comment.comment_text }}</td>
+                    <td class="user_nickname">{{ comment.user_nickname }}</td>
+                    <td class="create_date">{{ comment.create_date }}</td>
+
+                    <td class="comment_status">
+                        <div class="dropdown">
+                            <button data_status="{{ comment.comment_status }}" class="btn btn-default btn-sm
+                             dropdown-toggle current_status" type="button"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                {% if comment.comment_status == 0 %}
+                                待审核
+                                {% elif comment.comment_status == -1 %}
+                                拒绝
+                                {% elif comment.comment_status == 1 %}
+                                已通过
+                                {% elif comment.comment_status == 2 %}
+                                置顶
+                                {% endif %}
+                                <span class="caret"></span>
+                            </button>
+                            <ul id="select_status" class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                <li><a href="javascript:;" data_status="0">待审核</a></li>
+                                <li><a href="javascript:;" data_status="-1">拒绝</a></li>
+                                <li><a href="javascript:;" data_status="1">已通过</a></li>
+                                <li><a href="javascript:;" data_status="2">置顶</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <button onclick="edit_comment($(this))" class="btn btn-default btn-primary btn-sm">
+                                编辑
+                            </button>
+                            <button onclick="drop_comment($(this))" class="btn btn-default btn-sm">
+                                删除
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+    <!-- 底部分页 -->
+    <div class="row text-center">
+        <nav aria-label>
+            <ul id="page_list" class="pagination">
+                <li class="{{ 'disabled' if index_range[0] == 1 else '' }}"><a href="#" aria-label="Previous"><span
+                        aria-hidden="true">&laquo;</span></a></li>
+                {% for index in index_range %}
+                <li class="{{ 'active' if index == current_index else '' }}">
+                    <a href="/admin_center/comment?index={{ index }}">{{ index }}</a>
+                </li>
+                {% endfor %}
+                <li class="{{ 'disabled' if index_range[-1] == max_index else '' }}"><a href="#" aria-label="Next"><span
+                        aria-hidden="true">»</span></a></li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<!--模态框开始-->
+<a id="pop_modal" style="display: none" data-toggle="modal" data-target="#myModal">编辑评论</a>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h5 class="modal-title" id="myModalLabel">编辑评论</h5>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="topic_title" class="col-sm-2 control-label">
+                            话题名<span class="glyphicon glyphicon-exclamation-sign red_alert"></span>
+                        </label>
+                        <div class="col-sm-10">
+                            <input id="topic_title" readonly="readonly" type="text" class="form-control" placeholder="">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="comment_text" class="col-sm-2 control-label">评论</label>
+                        <div class="col-sm-10">
+                            <span id="comment_id" style="display: none;"></span>
+                            <textarea id="comment_text" class="form-control" placeholder=""></textarea>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="comment_submit_btn" class="btn btn-primary">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--模态框结束-->
+
+{% endblock %}

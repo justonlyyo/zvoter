@@ -40,7 +40,7 @@
 
                     <div class="row">
                         <div class="extend_info col-lg-7 col-md-7 col-sm-7 col-xs-12">
-                            <div>发起人：<span id="vote_author">{{ topic_info.authot }}</span></div>
+                            <div>发起人：<span id="vote_author">{{ topic_info.author }}</span></div>
                             <div>剩余时间：{{ surplus }}</div>
                         </div>
                         <div class="extend_info col-lg-5 col-md-5 col-sm-5 col-xs-12">
@@ -135,8 +135,12 @@
                     <div class="row">
                         <!--对比条开始-->
                         <div class="my_progress_bar col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div style="width: {{ blue_width }}%" class="wide_line blue_line">{{ blue_width }}%</div>
-                            <div style="width:{{ red_width }}%" class="wide_line red_line">{{ red_width }}%</div>
+                            <div style="width: {{ blue_width }}%" class="wide_line blue_line">
+                                {{ blue_width }}
+                                %</div>
+                            <div style="width:{{ red_width }}%" class="wide_line red_line">
+                                {{ red_width }}
+                                %</div>
                         </div>
                         <!--对比条结束-->
                     </div>
@@ -1002,9 +1006,14 @@
                     </div>
                     <!--底部回复区域结束-->
                     <!--底部编辑区开始-->
+                    <div class="row">
+                        <div id="tips_zone" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            回复<span data_parent_comment="0" id="comment_obj">话题</span>
+                        </div>
+                    </div>
                     <div class="message_area row">
-                        <div class="my_message col-lg-10 col-md-10 col-sm-10 col-xs-10">
-                            <textarea id="my_message" placeholder="投票后在对应区域发表言论"></textarea>
+                        <div  class="my_message col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                            <textarea  id="my_message" placeholder="先投票后吐槽"></textarea>
 
                         </div>
                         <div id="submit_btn"

@@ -1,6 +1,6 @@
 # -*- coding:utf8 -*-
 
-from flask import Flask, request, render_template, make_response, flash, send_file
+from flask import Flask, request, render_template, make_response, flash, send_file, abort
 from flask_session import Session
 from werkzeug.utils import secure_filename
 import requests
@@ -17,6 +17,8 @@ import topic
 import base64
 import vote_tools
 import notification
+import banner_manage
+import comment
 
 port = 5666  # 定义端口
 app = Flask(__name__)
@@ -27,13 +29,14 @@ if not os.path.exists(upload_dir_path):
     os.makedirs(upload_dir_path)
 UPLOAD_FOLDER = upload_dir_path  # 后台上传图片上传的路径
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+banner_dir_path = sys.path[0] + os.sep + "static" + os.sep + "image"  # 上传banner的位置
 ALLOWED_EXTENSIONS = ('png', 'jpg', 'jpeg', 'gif')  # 允许上传的图片后缀
 
 """主程序基础配置部分"""
 session_key = os.urandom(24)
 app.config.update({
     'SESSION_PERMANENT': False,  # 配置会话的生命期不是永久有效
-    'PERMANENT_SESSION_LIFETIME': 60*30,  # session 闲置超时时间，秒
+    'PERMANENT_SESSION_LIFETIME': 60 * 60 * 2,  # session 闲置超时时间，秒
     "SECRET_KEY": session_key  # 配置session的密钥
 })
 SESSION_TYPE = 'redis'  # flask-session使用redis，注意必须安装redis数据库和对应的redis模块
@@ -97,6 +100,7 @@ def index():
     img_form = PhotoForm()  # 上传图片from
     index_dict = topic.index_topic_list()  # 首页帖子字典
     side_bar_list = topic.side_bar_topic_list()  # 侧边栏的列表
+    banner_list = banner_manage.get_banner()  # banner列表
     if login_flag:
         try:
             user_img_url = session['user_img_url']
@@ -106,13 +110,13 @@ def index():
         user_img_url = '../static/image/guest.png' if user_img_url == "" else session['user_img_url']
         user_level = 1  # 用户级别，暂时替代
         return render_template("index.html", login_flag=login_flag, side_bar_list=side_bar_list,
-                               user_img_url=user_img_url, user_level=user_level,
+                               user_img_url=user_img_url, user_level=user_level, banner_list=banner_list,
                                channel_list=channel_list, channel_dict=channel_dict,
                                form=form, img_form=img_form, index_dict=index_dict)
     else:
         return render_template("index.html", login_flag=login_flag, channel_dict=channel_dict,
                                channel_list=channel_list, index_dict=index_dict, side_bar_list=side_bar_list,
-                               form=form, img_form=img_form)
+                               form=form, img_form=img_form, banner_list=banner_list)
 
 
 @app.route("/class_dict", methods=['post'])
@@ -197,8 +201,12 @@ def my_detail(key):
     if len(result['data']) == 0:
         abort(404)
     else:
-        topic_info = result['data']
+        topic_info = result['data']  # 投票信息
+        comment_list = comment.manage_comment(the_type="by_topic_id", topic_id=key)  # 评论
         surplus = surplus_datetime(topic_info['end_date'])  # 剩余时间
+        up_a_list = list()
+        up_b_list = list()
+
         all_view_count = vote_tools.get_view_count(topic_id=key)  # 浏览总数
         query_vote = vote_tools.get_vote_count(key)  # 查询　投票人数
         support_a = query_vote['support_a']
@@ -303,6 +311,8 @@ def my_login():
                 user_id = result['data']['user_id']
                 user_level = 1
                 user_img_url = result['data']['user_img_url']
+                if 'user_open_id' in session.keys():
+                    user.edit_user(user_id=user_id, user_open_id=session['user_open_id'])
                 set_user_login_info(session, user_id, user_password, user_img_url, user_level)
                 message = result
 
@@ -395,18 +405,18 @@ def user_center_notification():
                 user_img_url = ""
             user_img_url = '../static/image/guest.png' if user_img_url == "" else session['user_img_url']
             user_level = 1  # 暂时替代
-            notifications=notification.fetch_by_user_id(user_id)
+            notifications = notification.fetch_by_user_id(user_id)
             return render_template("user_center_notification.html",
                                    login_flag=login_flag,
                                    user_img_url=user_img_url, user_level=user_level,
-                                   user_info = user_info,
-                                   notifications = notifications
+                                   user_info=user_info,
+                                   notifications=notifications
                                    )
     else:
         return render_template("user_center_notification.html", login_flag=login_flag)
 
 
-@app.route("/mark_notification/<notification_id>",methods=['post'])
+@app.route("/mark_notification/<notification_id>", methods=['post'])
 @login_required_user
 def mark_notification(notification_id):
     """通知中心"""
@@ -419,9 +429,9 @@ def mark_notification(notification_id):
         except KeyError:
             abort(403)
         notification.mark_as_read(notification_id)
-        return json.dumps({"message":"successful"})
+        return json.dumps({"message": "successful"})
     else:
-        return json.dumps({"message":"failed"})
+        return json.dumps({"message": "failed"})
 
 
 @app.route("/user_center_voter")
@@ -452,11 +462,11 @@ def user_center_voter():
             return render_template("user_center_voter.html",
                                    login_flag=login_flag,
                                    user_img_url=user_img_url, user_level=user_level,
-                                   user_info = user_info,
-                                   created_topics = created_topics,
-                                   count_of_created_topics = len(created_topics),
+                                   user_info=user_info,
+                                   created_topics=created_topics,
+                                   count_of_created_topics=len(created_topics),
                                    count_of_joined_topics=len(joined_topics),
-                                   joined_topics = joined_topics,
+                                   joined_topics=joined_topics,
                                    )
     else:
         return render_template("user_center_voter.html", login_flag=login_flag)
@@ -600,7 +610,7 @@ def user_upload():
 @app.route('/user_portrait_upload', methods=('GET', 'POST'))
 @login_required_user
 def user_portrait_upload():
-    """用户上传图片"""
+    """用户上传头像"""
     astr = request.form.get("img_csrf")
     if check_img_csrf(astr):
         file = request.files['myfile']
@@ -611,8 +621,8 @@ def user_portrait_upload():
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
             filepath = '../static/upload/images/' + filename
-            user.edit_user(user_id= session['user_id'],user_img_url=filepath)
-            session['user_img_url']=filepath
+            user.edit_user(user_id=session['user_id'], user_img_url=filepath)
+            session['user_img_url'] = filepath
             return filepath
         else:
             return "只允许图片类型的文件"
@@ -640,6 +650,21 @@ def admin_upload():
 
         filepath = '../static/upload/images/' + filename
         return ab + "|" + filepath
+
+    else:
+        return "只允许图片类型的文件"
+
+
+@app.route('/upload_banner', methods=('GET', 'POST'))
+@login_required_admin
+def upload_banner():
+    """管理员上传banner"""
+    file = request.files['myfile']
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)  # 取文件类型
+        file.save(os.path.join(banner_dir_path, filename))
+        filepath = '../static/image/' + filename
+        return filepath
 
     else:
         return "只允许图片类型的文件"
@@ -741,6 +766,40 @@ def admin_center(key):
                                next_index=current_index + 1 if (current_index + 1) < max_index else max_index,
                                topic_data=topic_data, form=form)
 
+    elif key == "comment":
+        """评论管理"""
+        form = SearchLoginForm()
+        comment_count = comment.comment_count()
+        current_index = int(get_arg(request, "index", 1))  # 取页码
+        page_length = int(get_arg(request, "page_length", 10))  # 每页多少记录
+        max_index = math.ceil(comment_count / page_length)  # 最大页码
+        if max_index < current_index:
+            current_index = max_index
+        if 1 > current_index:
+            current_index = 1
+        """每页显示5个可点击页码"""
+        range_min = current_index - 2 if current_index > 2 else 1
+        rang_max = max_index if (range_min + 4) > max_index else (range_min + 4)
+
+        index_range = [x for x in range(range_min, rang_max + 1)]
+        comment_data = comment.manage_comment(the_type="page", index=current_index, page_length=page_length)
+        comment_data = comment_data['data']
+        return render_template("admin_center_comment.html",
+                               comment_count=comment_count,
+                               index_range=index_range,
+                               max_index=max_index,
+                               current_index=current_index,
+                               prev_index=current_index if (current_index - 1) > 1 else 1,
+                               next_index=current_index + 1 if (current_index + 1) < max_index else max_index,
+                               comment_data=comment_data, form=form)
+
+    elif key == 'layout':
+        """布局管理"""
+        """读取banner布局数据"""
+        banner_list = banner_manage.get_banner()
+        word_dict = banner_manage.get_keywords(0)  # 获取首页热词和关键词设置
+        return render_template('admin_center_layout.html', banner_list=banner_list, word_dict=word_dict)
+
 
 @app.route("/manage_<key1>/<key2>", methods=['post'])
 @login_required_admin
@@ -818,9 +877,41 @@ def manage_handler(key1, key2):
             result = topic.manage_topic_admin(**arg_dict)
             return json.dumps(result)
 
+    elif key1 == 'banner':
+        """对banner的操作"""
+        """取参数集"""
+        the_form = request.form
+        arg_dict = {key: the_form[key] for key in the_form.keys()}
+        if key2 in ['add', 'delete', 'edit']:
+            arg_dict['the_type'] = key2
+            message = banner_manage.manage_banner(**arg_dict)
+        else:
+            message = {"message": "操作指定错误"}
+
+    elif key1 == "keywords":
+        """对搜索热词，keywords,title,description的操作"""
+        """取参数集"""
+        the_form = request.form
+        arg_dict = {key: the_form[key] for key in the_form.keys()}
+        if key2 in ['add', 'delete', 'edit']:
+            arg_dict['the_type'] = key2
+            message = banner_manage.manage_keywords(**arg_dict)
+        else:
+            message = {"message": "操作指定错误"}
+
+    elif key1 == "comment":
+        """对评论的操作"""
+        the_form = request.form
+        arg_dict = {key: the_form[key] for key in the_form.keys()}
+        if key2 in ['add', 'delete', 'edit']:
+            arg_dict['the_type'] = key2
+            message = comment.manage_comment(**arg_dict)
+        else:
+            message = {"message": "操作指定错误"}
 
     else:
-        abort(403)
+        message = {"message": "无法理解的操作"}
+
     return json.dumps(message)
 
 
@@ -886,11 +977,142 @@ def view_count():
     return json.dumps(result)
 
 
-@app.route("/user_comment", methods=['post'])
+@app.route("/is_voted")
+def is_voted():
+    """用户加载页面时，检测是否已对此话题透过票了"""
+    only_id = get_arg(request, 'canvas_uuid')  # 用户唯一性id
+    topic_id = get_arg(request, 'topic_id')  # 用户唯一性id
+    result = vote_tools.is_voted(only_id, topic_id, True)  # 用户是否投票过？
+    return json.dumps(result)
+
+
+@app.route("/user_comment/<key>", methods=['post'])
 @login_required_user
-def user_comment():
+def user_comment(key):
     """用户留言"""
-    pass
+    message = {"message": "success"}
+    form = RequestLoginForm()
+    if form.validate_on_submit():
+        try:
+            user_id = session['user_id']
+            """取参数集"""
+            the_form = request.form
+            arg_dict = {key: the_form[key] for key in the_form.keys()}
+            arg_dict.pop("csrf_token")
+            arg_dict['comment_author'] = user_id
+            if key in ['add', 'edit', 'delete']:
+                arg_dict['the_type'] = key
+                message = comment.manage_comment(**arg_dict)
+            else:
+                message['message'] = '不合理的请求'
+        except KeyError:
+            message['message'] = "用户id错误"
+    else:
+        message['message'] = "错误的提交"
+
+    return json.dumps(message)
+
+
+@app.route('/MP_verify_RZO0Fo2eVSv0Gt29.txt')
+def weixin_verification():
+    """用于微信服务器检测"""
+    return app.send_static_file('MP_verify_RZO0Fo2eVSv0Gt29.txt')
+
+
+@app.route('/weixin_auth')
+def weixin_auth():
+    """微信登录的入口"""
+    appid = 'wx85625e403869c2e1'
+    secret = 'e2bcee7ae27bd22d62ff325df122bd41'
+    code = request.args.get('code')
+    resp = requests.get(
+        'https://api.weixin.qq.com/sns/oauth2/access_token?appid=%s&secret=%s&code=%s&grant_type=authorization_code' % (
+        appid, secret, code))
+    access_info = resp.json()
+    access_token = access_info['access_token']
+    openid = access_info['openid']
+    resp = requests.get(
+        'https://api.weixin.qq.com/sns/userinfo?access_token=%s&openid=%s&lang=zh_CN' % (access_token, openid))
+    resp.encoding = 'utf-8'
+    user_info = resp.json()
+    nickname = user_info['nickname']
+    city = user_info['city']
+    province = user_info['province']
+    country = user_info['country']
+    sex = '男' if user_info['sex'] == 1 else '女'
+    portrait = user_info['headimgurl']
+
+    check_wx_result = user.check_wx(openid)
+    if check_wx_result['message'] == 'exists':
+        user_id = check_wx_result['data']['user_id']
+        user_password = check_wx_result['data']['user_password']
+        user_img_url = check_wx_result['data']['user_img_url']
+        user_level = 1
+        set_user_login_info(session, user_id, user_password, user_img_url, user_level)
+        return redirect(url_for("index"))
+    else:
+        user_id = get_only_id()
+        reg_args = {"user_open_id": openid,
+                    "user_id": user_id,
+                    "create_date": current_datetime(),
+                    "user_img_url": portrait,
+                    "user_nickname": nickname,
+                    "user_sex": sex,
+                    "user_password": '000000'}
+
+        session['reg_args'] = reg_args
+        session['user_open_id'] = openid
+        return render_template("user_weixin_binding.html", nickname=nickname, portrait=portrait)
+
+
+@app.route('/weixin_new_user', methods=['post'])
+def weixin_new_user():
+    """微信新用户注册"""
+    reg_args = session['reg_args']
+    result = user.add_user(**reg_args)
+    if result['message'] == 'success':
+        user_id = reg_args['user_id']
+        user_level = 1  # 临时替代
+        user_img_url = reg_args['user_img_url']
+        user_password = reg_args['user_password']
+        set_user_login_info(session, user_id, user_password, user_img_url, user_level)
+        message = {"message": "success"}
+    else:
+        message = {"message": "failed"}
+        message['result'] = json.dumps(result)
+    return json.dumps(message)
+
+
+@app.route('/weixin_bind_phone')
+def weixin_bind_phone():
+    """微信绑定手机号的重定向"""
+    return redirect(url_for("login"))
+
+
+@app.route('/t/<openid>')
+def weixin_test(openid):
+    """这个方法用来在本地模拟微信接入，可以忽略不计"""
+    nickname = 'zhouyi'
+    check_wx_result = user.check_wx(openid)
+    print(json.dumps(check_wx_result))
+    if check_wx_result['message'] == 'exists':
+        session["user_id"] = check_wx_result['data']['user_id']
+        session["user_password"] = check_wx_result['data']['user_password']
+        session["user_img_url"] = check_wx_result['data']['user_img_url']
+        session["user_level"] = 1
+        return redirect(url_for("index"))
+    else:
+        user_id = get_only_id()
+        reg_args = {"user_open_id": openid,
+                    "user_id": user_id,
+                    "create_date": current_datetime(),
+                    "user_nickname": nickname,
+                    "user_sex": '男',
+                    "user_img_url": '../static/image/guest.png',
+                    "user_password": '000000'}
+        session['reg_args'] = reg_args
+    return render_template("user_weixin_binding.html", nickname=nickname, ttt=current_datetime())
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=port, debug=True, threaded=True)
