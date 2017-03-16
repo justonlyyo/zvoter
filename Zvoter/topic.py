@@ -145,18 +145,24 @@ def manage_topic_admin(**kwargs):
         elif the_type == "single":
             """根据id获取单个话题的内容"""
             top_id = kwargs.pop("top_id")
+
+            child_sql = "(SELECT CONCAT_WS(' vs ',SUM(support_a),SUM(support_b))  " \
+                        "FROM vote_count WHERE vote_count.topic_id=topic_info.top_id)"  # 查询ab支持度的子查询
             sql = "SELECT top_id,top_title,top_content,viewpoint_a,viewpoint_b,can_show,img_url_a,img_url_b," \
-                  "channel_info.channel_name,class_info.class_name,end_date,begin_date," \
-                  "user_info.user_nickname FROM topic_info,channel_info,class_info,user_info " \
+                  "topic_info.channel_id,channel_info.channel_name,topic_info.class_id," \
+                  "class_info.class_name,end_date,begin_date," \
+                  "user_info.user_nickname,{} FROM topic_info,channel_info,class_info,user_info " \
                   "WHERE user_info.user_id=topic_info.author " \
                   "AND channel_info.channel_id=topic_info.channel_id and " \
                   "class_info.class_id=topic_info.class_id AND  " \
-                  "top_id='{}'".format(top_id)
+                  "top_id='{}'".format(child_sql, top_id)
             columns = ['top_id', 'top_title', 'top_content', 'viewpoint_a', 'viewpoint_b', 'can_show',
-                       'img_url_a', 'img_url_b', 'channel_name', 'class_name', 'end_date', 'begin_date', 'author']
+                       'img_url_a', 'img_url_b', 'channel_id', 'channel_name', 'class_id', 'class_name', 'end_date',
+                       'begin_date', 'author', "a_vs_b"]
             proxy_result = sql_session.execute(sql)
             result = proxy_result.fetchone()
             result = my_db.str_format(result)
+            sql_session.close()
             data = dict(zip(columns, result))
             message['data'] = data
 
