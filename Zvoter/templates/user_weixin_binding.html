@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <!--移动页面优化：页面宽度=设备宽度，初始化缩放为1，最大缩放1，禁用放大-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/css/user_weixin_binding.css">
+
+    <script src="../static/js/jquery-1.11.3.min.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
+    <script src="../static/js/common.js"></script>
+    <script src="../static/js/user_weixin_binding.js"></script>
+
+    <title>绑定已有账户</title>
+</head>
+<body>
+
+    <div class="row center-block col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
+        <div class="portrait col-lg-4 col-md-4 col-sm-4 col-xs-4">
+            <img class="img-responsive img-circle" id="login_user_pic" src="{{ portrait }}">
+        </div>
+    </div>
+    <div class="row">
+        <div class="center-block text-center col-lg-12 col-md-12 col-sm-12 col-xs-12">
+         {{ nickname }}，欢迎来到众投票！
+        </div>
+    </div>
+
+
+
+    <div class="row">
+        <div class="chosen">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="old_user btn btn-default btn-block">
+                    我已经是本网站用户
+                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row binding-weixin-form">
+        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+            <div class=" component-binding ">
+                <div>
+                <input type="text" class="form-control" id="phonenumber" placeholder="输入您注册时用的手机号">
+                </div>
+            </div>
+            <div class=" component-binding ">
+                <div>
+                <input type="password" class="form-control" id="password" placeholder="输入您的密码">
+                </div>
+            </div>
+            <div class="component-binding">
+                <div>
+                <div class="btn-binding btn btn-info btn-block">绑定</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="chosen">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class=" new_user btn btn-primary btn-block">
+                    我是新人
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+
+</html>

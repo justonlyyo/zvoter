@@ -11,5 +11,29 @@ $(function(){
         }
     });
 
+    // 根据状态获取颜色
+    get_color = function (status_str){
+        var status = parseInt(status_str);
+        var color = "";
+        switch (status){
+            case 0:
+                color = "#ffc20e";
+                break;
+            case -1:
+                color = "#72777b";
+                break;
+            case 1:
+                color = "#007d65";
+                break;
+            case 2:
+                color = "#d71345";
+                break;
+            default:
+                color = "black";
+        }
+        return color;
+    };
+
+
     //end!
 });

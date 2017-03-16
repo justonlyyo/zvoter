@@ -1,8 +1,4 @@
-__author__ = 'Administrator'
+from banner_manage import FromDB
 
-a = [1,2,4]
-def x(xx):
-    b=xx[-1:0:1]
-    return b
-
-print(x(a))
+for x in range(4):
+    FromDB.no()

@@ -282,7 +282,7 @@ def topic_detail_user(top_id):
           "class_info.class_id=topic_info.class_id AND  " \
           "top_id='{}'".format(child_sql, top_id)
     columns = ['top_id', 'top_title', 'top_content', 'viewpoint_a', 'viewpoint_b', 'can_show',
-               'img_url_a', 'img_url_b', 'channel_id', 'channel_name','class_id', 'class_name', 'end_date',
+               'img_url_a', 'img_url_b', 'channel_id', 'channel_name', 'class_id', 'class_name', 'end_date',
                'begin_date', 'author', "a_vs_b"]
     proxy_result = ses.execute(sql)
     result = proxy_result.fetchone()
